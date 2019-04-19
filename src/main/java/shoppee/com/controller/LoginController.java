@@ -31,7 +31,6 @@ public class LoginController {
 		} else {
 			//Get information of user login
 			Admin adminLogin = adminService.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword());
-			
 			return new ResponseEntity<Admin>(adminLogin,HttpStatus.OK);
 		}
 	}
