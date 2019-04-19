@@ -36,18 +36,18 @@ public class LoginController {
 		}
 	}
 	
-	@PostMapping("dangnhap")
-	public ResponseEntity<Admin> login(@RequestParam("username") String username,@RequestParam("password") String password){
-		if (adminService.getAdminByNameAndPassword(username, password)== null) {
-			//Incorrect username or password
-			TokenResult result = new TokenResult("false", "Incorrect username or password");
-			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
-		} else {
-			//Get information of user login
-			Admin adminLogin = adminService.getAdminByNameAndPassword(username, password);
-			
-			return new ResponseEntity<Admin>(adminLogin,HttpStatus.OK);
-		}
-	}
+//	@PostMapping("dangnhap")
+//	public ResponseEntity<Admin> login(@RequestParam("username") String username,@RequestParam("password") String password){
+//		if (adminService.getAdminByNameAndPassword(username, password)== null) {
+//			//Incorrect username or password
+//			TokenResult result = new TokenResult("false", "Incorrect username or password");
+//			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+//		} else {
+//			//Get information of user login
+//			Admin adminLogin = adminService.getAdminByNameAndPassword(username, password);
+//			
+//			return new ResponseEntity<Admin>(adminLogin,HttpStatus.OK);
+//		}
+//	}
 	
 }
