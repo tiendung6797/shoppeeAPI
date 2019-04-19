@@ -1,5 +1,6 @@
 package shoppee.com.entities;
 
-public class Aaaaaaaa {
+public class Aaaaa {
+	
 
 }
