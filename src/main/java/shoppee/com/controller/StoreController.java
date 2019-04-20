@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shoppee.com.entities.Store;
 import shoppee.com.service.impl.StoreServiceImpl;
 import shoppee.com.utils.LogicHandle;
+import shoppee.com.utils.StoreTokenResult;
 
 @RestController
 @RequestMapping("/store")
@@ -21,7 +22,15 @@ public class StoreController {
 	StoreServiceImpl storeService;
 
 	//list store
-	
+	@RequestMapping(value="/all", method=RequestMethod.GET)
+	public ResponseEntity<List<Store>> getAllStore(){
+		List<Store> listStore = storeService.findAllStore();
+		if(listStore.isEmpty()) {
+			ResponseEntity<List<Store>> errorListStore = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return errorListStore;
+		}
+		return new ResponseEntity<>(listStore, HttpStatus.OK);
+	}
 	
 	//Register a new store
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -33,20 +42,24 @@ public class StoreController {
 		
 		if(checkStoreEmail == true && checkStoreName == true) {
 			Store newStore = storeService.saveStore(store);
-			return new ResponseEntity<Store>(newStore, HttpStatus.CREATED);
+			StoreTokenResult result = new StoreTokenResult("Đăng kí thành công!", "false", newStore);
+			return new ResponseEntity(result, HttpStatus.CREATED);
 		} 
 		else {
-			if (checkStoreName == false) {
-				String message = "Tên cửa hàng này đã tồn tại, vui lòng sử dụng tên cửa hàng khác!";
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
-			}
 			if (checkStoreEmail == false) {
-				String message = "Email đã tồn tại, vui lòng sử dụng email khác!";
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+				String error = "Email đã tồn tại, vui lòng sử dụng email khác!";
+				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 			}
+			if (checkStoreName == false) {
+				String error = "Tên cửa hàng này đã tồn tại, vui lòng sử dụng tên cửa hàng khác!";
+				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+			}
+			String error = "Có lỗi xảy ra!";
+			StoreTokenResult result = new StoreTokenResult("false", error, store);
+			return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 		}
-		
-		return null;
 		
 	}
 	

@@ -16,8 +16,8 @@ public class StoreServiceImpl implements StoreService{
 	
 	@Override
 	public List<Store> findAllStore() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Store> listStore = storeRepository.findAll();
+		return listStore;
 	}
 
 	@Override
