@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.User;
+import shoppee.com.repository.UserRepository;
 import shoppee.com.service.UserService;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
@@ -24,6 +25,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@GetMapping("all")
 	public ResponseEntity<List<User>> getAll(){
@@ -44,10 +48,34 @@ public class UserController {
 			User user = userService.addUser(objUser);
 			return new ResponseEntity<User>(user, HttpStatus.CREATED);
 		}
-		TokenResult result = new TokenResult("fail", "Username is existed!!");
+		TokenResult result = new TokenResult("fail", "Username is existed!!", objUser);
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PutMapping("update")
+	@GetMapping("id-{id}")
+	public ResponseEntity<User> getUserById(@PathVariable(name = "id") Integer id){
+		if(userService.getOneById(id) == null) {
+			TokenResult error = new TokenResult("Username is existed!!");
+			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+		}else {
+			User objUser = userService.getOneById(id);
+			return new ResponseEntity<User>(objUser, HttpStatus.OK);
+		}
+	}
+	
+	/*@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PutMapping("update/{id}")
+	public ResponseEntity<User> updateUser(@RequestBody User objUser ,@PathVariable("id") Integer id){
+		User oldUser = userService.getOneById(id);
+		if(oldUser == null) {
+			TokenResult result = new TokenResult("false", "Not found this user with this id!!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+		oldUser.setFullname(objUser.getFullname());
+		oldUser.setPhone(objUser.getPhone());
+		oldUser.setAddress(objUser.getAddress());
+		
+		
+	}*/
 }
