@@ -1,6 +1,7 @@
 package shoppee.com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,25 @@ public class AdminServiceImpl implements AdminService {
 		List<Admin> listAdmin = adminRepository.findAll();
 		return listAdmin;
 		
+	}
+	
+	@Override
+	public Admin addAdmin(Admin objAdmin) {
+		Admin admin = adminRepository.save(objAdmin);
+		return admin;
+		
+	}
+
+	@Override
+	public Admin getAdminById(Integer id) {
+		Optional<Admin> objAdmin = adminRepository.findById(id);
+		return objAdmin.get();
+	}
+
+	@Override
+	public void deleteAdmin(Integer id) {
+		// TODO Auto-generated method stub
+		adminRepository.deleteById(id);
 	}
 
 }

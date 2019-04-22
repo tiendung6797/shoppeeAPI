@@ -2,6 +2,7 @@ package shoppee.com.utils;
 
 import java.util.List;
 
+import shoppee.com.entities.Admin;
 import shoppee.com.entities.Store;
 import shoppee.com.entities.User;
 
@@ -13,6 +14,16 @@ public class LogicHandle {
 				if(objUser.getEmail().equals(user.getEmail()) || objUser.getPhone().equals(user.getPhone())) {
 					return false;
 				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean functionCheckName(List<Admin> listAdmin, Admin objAdmin) {
+		if(!listAdmin.isEmpty() && objAdmin != null) {
+			for(Admin admin : listAdmin) {
+				if(admin.getUsername().equals(objAdmin.getUsername()))
+					return false;
 			}
 		}
 		return true;
@@ -38,6 +49,28 @@ public class LogicHandle {
 		if(!listStore.isEmpty() && store != null) {
 			for(Store objStore : listStore) {
 				if(objStore.getStore_name().equals(store.getStore_name())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean functionCheckStoreAddress(List<Store> listStore, Store store) {
+		if(!listStore.isEmpty() && store != null) {
+			for(Store objStore : listStore) {
+				if(objStore.getAddress().equals(store.getAddress())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean functionCheckStorePhone(List<Store> listStore, Store store) {
+		if(!listStore.isEmpty() && store != null) {
+			for(Store objStore : listStore) {
+				if(objStore.getPhone().equals(store.getPhone())) {
 					return false;
 				}
 			}

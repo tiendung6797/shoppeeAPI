@@ -1,6 +1,7 @@
 package shoppee.com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,9 +58,9 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public Store getOneById(Integer store_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Store getOneById(Integer id) {
+		Optional<Store> objStore = storeRepository.findById(id);
+		return objStore.get();
 	}
 
 	@Override
@@ -69,8 +70,8 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public void deleteStoreById(Integer store_id) {
+	public void deleteStoreById(Integer id) {
 		// TODO Auto-generated method stub
-		
+		storeRepository.deleteById(id);
 	}
 }

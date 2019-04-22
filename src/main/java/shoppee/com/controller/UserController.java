@@ -18,6 +18,7 @@ import shoppee.com.entities.User;
 import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
+import shoppee.com.utils.TokenResultUser;
 
 @RestController
 @RequestMapping("user")
@@ -45,7 +46,7 @@ public class UserController {
 			User user = userService.addUser(objUser);
 			return new ResponseEntity<User>(user, HttpStatus.CREATED);
 		}
-		TokenResult result = new TokenResult("fail", "Username or phone is existed!!", objUser);
+		TokenResultUser result = new TokenResultUser("fail", "Username or phone is existed!!", objUser);
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
@@ -72,7 +73,7 @@ public class UserController {
 			List<User> listUser = userService.getAllUser();
 			boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
 			if (checkUsername == false) {
-				TokenResult error = new TokenResult("Failed", "Phone is existed!!");
+				TokenResultUser error = new TokenResultUser("fail", "Username or phone is existed!!", objUser);
 				return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 			} else {
 				oldUser.setPassword(objUser.getPassword());
