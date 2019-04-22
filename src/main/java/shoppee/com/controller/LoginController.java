@@ -14,7 +14,7 @@ import shoppee.com.service.AdminService;
 import shoppee.com.utils.TokenResult;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("login/admin")
 public class LoginController {
 
 	@Autowired

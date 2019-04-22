@@ -33,4 +33,10 @@ public class UserServiceImpl implements UserService{
 		Optional<User> objUser = userRepository.findById(id);
 		return objUser.get();
 	}
+
+	@Override
+	public void deleteUserById(Integer id) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
+	}
 }

@@ -30,11 +30,6 @@ public class TokenResult {
 		this.success = success;
 		this.error = error;
 	}
-	public TokenResult(String error) {
-		super();
-		this.error = error;
-	}
-
 	public TokenResult() {
 		super();
 	}

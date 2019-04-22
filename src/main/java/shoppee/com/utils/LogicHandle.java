@@ -10,7 +10,7 @@ public class LogicHandle {
 	public static boolean functionCheckName(List<User> listUser, User user) {
 		if(!listUser.isEmpty() && user != null) {
 			for(User objUser : listUser) {
-				if(objUser.getEmail().equals(user.getEmail())) {
+				if(objUser.getEmail().equals(user.getEmail()) || objUser.getPhone().equals(user.getPhone())) {
 					return false;
 				}
 			}
