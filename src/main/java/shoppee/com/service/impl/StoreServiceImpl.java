@@ -54,7 +54,8 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public Store getStoreByEmailAndPassword(String email, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		Store objStore = storeRepository.getStoreByUsernameAndPassword(email, password);
+		return objStore;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package shoppee.com.utils;
 
 import shoppee.com.entities.Admin;
 
-public class TokenResultAdmin {
+public class AdminTokenResult {
 
 	private String success;
 	private String error;
@@ -32,12 +32,12 @@ public class TokenResultAdmin {
 		this.admin = admin;
 	}
 
-	public TokenResultAdmin() {
+	public AdminTokenResult() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TokenResultAdmin(String success, String error, Admin admin) {
+	public AdminTokenResult(String success, String error, Admin admin) {
 		super();
 		this.success = success;
 		this.error = error;

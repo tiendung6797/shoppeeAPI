@@ -13,19 +13,18 @@ import shoppee.com.service.AdminService;
 import shoppee.com.utils.TokenResult;
 
 @RestController
-@RequestMapping("login/admin")
-public class LoginController {
+@RequestMapping("admin")
+public class AdminLoginController {
 
 	@Autowired
 	private AdminService adminService;
 
-	// Data input Object
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping("auth")
+	@PostMapping("login")
 	public ResponseEntity<Admin> login(@RequestBody Admin objAdmin) {
 		if (adminService.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword()) == null) {
 			// Incorrect username or password
-			TokenResult result = new TokenResult("false", "Incorrect username or password");
+			TokenResult result = new TokenResult("False", "Incorrect username or password");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		} else {
 			// Get information of user login

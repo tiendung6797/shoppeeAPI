@@ -39,4 +39,12 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		userRepository.deleteById(id);
 	}
+
+	@Override
+	public User getUserByNameAndPassword(String name, String password) {
+		// TODO Auto-generated method stub
+		User objUser = userRepository.getUserByUsernameAndPassword(name, password);
+		
+		return objUser;
+	}
 }

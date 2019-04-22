@@ -21,7 +21,7 @@ import shoppee.com.utils.StoreTokenResult;
 import shoppee.com.utils.TokenResult;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping("store")
 public class StoreController {
 	@Autowired
 	StoreServiceImpl storeService;
@@ -49,31 +49,31 @@ public class StoreController {
 
 		if (checkStoreEmail == true && checkStoreName == true) {
 			Store newStore = storeService.saveStore(store);
-			StoreTokenResult result = new StoreTokenResult("Đăng kí thành công!", "false", newStore);
+			StoreTokenResult result = new StoreTokenResult( "False", "Đăng kí tài khoản thành công!", newStore);
 			return new ResponseEntity(result, HttpStatus.CREATED);
 		} else {
 			if (checkStoreEmail == false) {
 				String error = "Email đã tồn tại, vui lòng sử dụng email khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				StoreTokenResult result = new StoreTokenResult("False", error, store);
 				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 			}
 			if (checkStoreName == false) {
 				String error = "Tên cửa hàng này đã tồn tại, vui lòng sử dụng tên cửa hàng khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				StoreTokenResult result = new StoreTokenResult("False", error, store);
 				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 			}
 			if (checkStoreAddress == false) {
 				String error = "Đại chỉ cửa hàng này đã tồn tại, vui lòng nhập địa chỉ khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				StoreTokenResult result = new StoreTokenResult("False", error, store);
 				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 			}
 			if (checkStorePhone == false) {
 				String error = "Số điện thoại này đã tồn tại, vui lòng nhập số điện thoại khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, store);
+				StoreTokenResult result = new StoreTokenResult("False", error, store);
 				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 			}
 			String error = "Có lỗi xảy ra!";
-			StoreTokenResult result = new StoreTokenResult("false", error, store);
+			StoreTokenResult result = new StoreTokenResult("False", error, store);
 			return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
 		}
 
@@ -83,7 +83,7 @@ public class StoreController {
 	@GetMapping("{id}")
 	public ResponseEntity<Store> getStoreById(@PathVariable(value = "id") Integer id) {
 		if (storeService.getOneById(id) == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this store with this id!!");
+			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			Store objStore = storeService.getOneById(id);
@@ -96,7 +96,7 @@ public class StoreController {
 	public ResponseEntity<Store> updateStore(@RequestBody Store objStore, @PathVariable(value = "id") Integer id){
 		Store oldStore = storeService.getOneById(id);
 		if(oldStore ==null) {
-			TokenResult error = new TokenResult("Failed", "Not found this store with this id!!");
+			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		}else {
 			List<Store> listStore = storeService.findAllStore();
@@ -136,11 +136,11 @@ public class StoreController {
 	public ResponseEntity<Store> deleteStore(@PathVariable(value = "id") Integer id){
 		Store objStore = storeService.getOneById(id);
 		if(objStore == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this admin with this id!!");
+			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		}else {
 			storeService.deleteStoreById(id);
-			TokenResult result = new TokenResult("True", "Delete User success!!");
+			TokenResult result = new TokenResult("True", "Xóa tài khoản thành công!");
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
 	}

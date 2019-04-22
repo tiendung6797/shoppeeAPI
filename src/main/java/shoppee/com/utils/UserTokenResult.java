@@ -2,7 +2,7 @@ package shoppee.com.utils;
 
 import shoppee.com.entities.User;
 
-public class TokenResultUser {
+public class UserTokenResult {
 	private String success;
 	private String error;
 	private User user;
@@ -25,10 +25,10 @@ public class TokenResultUser {
 	public void setError(String error) {
 		this.error = error;
 	}
-	public TokenResultUser() {
+	public UserTokenResult() {
 		super();
 	}
-	public TokenResultUser(String success, String error, User user) {
+	public UserTokenResult(String success, String error, User user) {
 		super();
 		this.success = success;
 		this.error = error;

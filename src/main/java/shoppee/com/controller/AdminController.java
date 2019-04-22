@@ -18,7 +18,7 @@ import shoppee.com.entities.Admin;
 import shoppee.com.service.impl.AdminServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
-import shoppee.com.utils.TokenResultAdmin;
+import shoppee.com.utils.AdminTokenResult;
 
 @RestController
 @RequestMapping("admin")
@@ -47,7 +47,7 @@ public class AdminController {
 			return new ResponseEntity<Admin>(admin, HttpStatus.CREATED);
 		}
 
-		TokenResultAdmin result = new TokenResultAdmin("fail", "Username is existed!!", objAdmin);
+		AdminTokenResult result = new AdminTokenResult("False", "Username đã tồn tại. Vui lòng nhập lại username!!", objAdmin);
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
@@ -55,7 +55,7 @@ public class AdminController {
 	@GetMapping("{id}")
 	public ResponseEntity<Admin> getAdminById(@PathVariable(value = "id") Integer id) {
 		if (adminService.getAdminById(id) == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this admin with this id!!");
+			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			Admin objAdmin = adminService.getAdminById(id);
@@ -68,7 +68,7 @@ public class AdminController {
 	public ResponseEntity<Admin> updateAdmin(@RequestBody Admin objAdmin, @PathVariable(value = "id") Integer id) {
 		Admin oldAdmin = adminService.getAdminById(id);
 		if (oldAdmin == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this admin with this id!!");
+			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			oldAdmin.setPassword(objAdmin.getPassword());
@@ -85,11 +85,11 @@ public class AdminController {
 	public ResponseEntity<Admin> deleteAdmin(@PathVariable(value = "id") Integer id) {
 		Admin objAdmin = adminService.getAdminById(id);
 		if (objAdmin == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this admin with this id!!");
+			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			adminService.deleteAdmin(id);
-			TokenResult result = new TokenResult("True", "Delete User success!!");
+			TokenResult result = new TokenResult("True", "Xóa tài khoản Admin thành công!!");
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
 	}

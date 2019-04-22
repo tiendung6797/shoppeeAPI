@@ -18,7 +18,7 @@ import shoppee.com.entities.User;
 import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
-import shoppee.com.utils.TokenResultUser;
+import shoppee.com.utils.UserTokenResult;
 
 @RestController
 @RequestMapping("user")
@@ -38,7 +38,7 @@ public class UserController {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping("add")
+	@PostMapping("register")
 	public ResponseEntity<User> addUser(@RequestBody(required = false) User objUser) {
 		List<User> listUser = userService.getAllUser();
 		boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
@@ -46,7 +46,7 @@ public class UserController {
 			User user = userService.addUser(objUser);
 			return new ResponseEntity<User>(user, HttpStatus.CREATED);
 		}
-		TokenResultUser result = new TokenResultUser("fail", "Username or phone is existed!!", objUser);
+		UserTokenResult result = new UserTokenResult("False", "Username hoặc phone đã tồn tại!", objUser);
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
@@ -54,7 +54,7 @@ public class UserController {
 	@GetMapping("{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Integer id) {
 		if (userService.getOneById(id) == null) {
-			TokenResult error = new TokenResult("Failed", "Not found this user with this id!!");
+			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản User!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			User objUser = userService.getOneById(id);
@@ -67,14 +67,14 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody User objUser, @PathVariable(value = "id") Integer id) {
 		User oldUser = userService.getOneById(id);
 		if (oldUser == null) {
-			TokenResult result = new TokenResult("false", "Not found this user with this id!!");
+			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		} else {
 			List<User> listUser = userService.getAllUser();
 			boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
 			if (checkUsername == false) {
-				TokenResultUser error = new TokenResultUser("fail", "Username or phone is existed!!", objUser);
-				return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+				UserTokenResult result = new UserTokenResult("False", "Username hoặc phone đã tồn tại!", objUser);
+				return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 			} else {
 				oldUser.setPassword(objUser.getPassword());
 				oldUser.setFullname(objUser.getFullname());
@@ -92,11 +92,11 @@ public class UserController {
 	public ResponseEntity<User> deleteUser(@PathVariable(value = "id") Integer id) {
 		User objUser = userService.getOneById(id);
 		if (objUser == null) {
-			TokenResult result = new TokenResult("false", "Not found this user with this id!!");
-			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản User!");
+			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			userService.deleteUserById(id);
-			TokenResult result = new TokenResult("True", "Delete User success!!");
+			TokenResult result = new TokenResult("True", "Xóa tài khoản thành công!");
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
 	}
