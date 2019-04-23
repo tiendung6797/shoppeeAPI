@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.Store;
+import shoppee.com.service.StoreService;
 import shoppee.com.service.impl.StoreServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.StoreTokenResult;
@@ -25,6 +27,21 @@ import shoppee.com.utils.TokenResult;
 public class StoreController {
 	@Autowired
 	StoreServiceImpl storeService;
+	
+	@Autowired
+	private StoreService storeService1;
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping("login")
+	public ResponseEntity<Store> login(@RequestBody Store objStore){
+		if(storeService1.getStoreByEmailAndPassword(objStore.getEmail(), objStore.getPassword()) == null){
+			TokenResult result = new TokenResult("False", "Incorrect username or password");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}else {
+			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getEmail(), objStore.getPassword());
+			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
+		}
+	}
 
 	// list store
 	@RequestMapping(value = "/all", method = RequestMethod.GET)

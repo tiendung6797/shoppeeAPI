@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.Admin;
+import shoppee.com.service.AdminService;
 import shoppee.com.service.impl.AdminServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
@@ -26,7 +27,24 @@ public class AdminController {
 
 	@Autowired
 	private AdminServiceImpl adminService;
+	
+	@Autowired
+	private AdminService adminService1;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping("login")
+	public ResponseEntity<Admin> login(@RequestBody Admin objAdmin) {
+		if (adminService1.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword()) == null) {
+			// Incorrect username or password
+			TokenResult result = new TokenResult("False", "Incorrect username or password");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		} else {
+			// Get information of user login
+			Admin adminLogin = adminService1.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword());
+			return new ResponseEntity<Admin>(adminLogin, HttpStatus.OK);
+		}
+	}
+	
 	@GetMapping("all")
 	public ResponseEntity<List<Admin>> getAll() {
 		List<Admin> listAdmin = adminService.getAllAdmin();

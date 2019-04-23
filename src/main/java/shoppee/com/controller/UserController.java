@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.User;
+import shoppee.com.service.UserService;
 import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
@@ -26,6 +27,21 @@ public class UserController {
 
 	@Autowired
 	private UserServiceImpl userService;
+	
+	@Autowired
+	private UserService userService1;
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping("login")
+	public ResponseEntity<User> login(@RequestBody User objUser){
+		if(userService1.getUserByNameAndPassword(objUser.getEmail(), objUser.getPassword()) == null) {
+			TokenResult result = new TokenResult("False", "Incorrect username or password");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}else {
+			User objUserLogin = userService1.getUserByNameAndPassword(objUser.getEmail(), objUser.getPassword());
+			return new ResponseEntity<User>(objUserLogin, HttpStatus.OK);
+		}
+	}
 
 	@GetMapping("all")
 	public ResponseEntity<List<User>> getAll() {
