@@ -5,12 +5,16 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.Product;
@@ -38,6 +42,30 @@ public class ProductController {
 	}
 	
 	/*
+	 * get product by pagination
+	 * */
+	@RequestMapping(value="", method = RequestMethod.GET)
+	public ResponseEntity<List<Product>> getProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort){
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_view").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_view").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+	    List<Product> listProductPagination = productService.getProductPagination(pageable);
+		
+	    if(listProductPagination.isEmpty()) {
+			ResponseEntity<List<Product>> errorList = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return errorList;
+		}
+		return new  ResponseEntity<>(listProductPagination,HttpStatus.OK);
+	}
+	
+	/*
 	 * get product by id
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -52,6 +80,81 @@ public class ProductController {
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	/*
+	 * get all sale products
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/sale/all", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getAllSaleProduct() {
+		List<Product> listPro = productService.getAllSaleProduct();
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
+	
+	/*
+	 * get sale products pagination
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/sale", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getSaleProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_view").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_view").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+		List<Product> listSalePro = productService.getSaleProductPagination(pageable);
+		
+		if (listSalePro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listSalePro, HttpStatus.OK);
+	}
+	
+	/*
+	 * get all hot products
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/hot/all", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getAllHotProduct() {
+		List<Product> listPro = productService.getAllHotProduct();
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
+	
+	/*
+	 * get hot products pagination
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/hot", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getHotProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_selled").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_selled").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+		List<Product> listPro = productService.getHotProductPagination(pageable);
+		
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
+	
 	
 	/*
 	 * add product
@@ -121,6 +224,10 @@ public class ProductController {
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
 	}
+	
+	
+	
+	
 	
 	
 }

@@ -3,6 +3,7 @@ package shoppee.com.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import shoppee.com.entities.Product;
@@ -33,5 +34,33 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProductById(Integer id) {
 		productRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Product> getProductPagination(Pageable pageable) {
+		return (List<Product>) productRepository.getProductPagination(pageable);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getAllSaleProduct() {
+		return (List<Product>) productRepository.getAllSaleProduct();
+	}
+
+	@Override
+	public List<Product> getSaleProductPagination(Pageable pageable) {
+		return (List<Product>) productRepository.getSaleProductPagination(pageable);
+	}
+
+	@Override
+	public List<Product> getAllHotProduct() {
+		return (List<Product>) productRepository.getAllHotProduct();
+	}
+
+	@Override
+	public List<Product> getHotProductPagination(Pageable pageable) {
+		return (List<Product>) productRepository.getHotProductPagination(pageable);
+	}
+
+	
 
 }
