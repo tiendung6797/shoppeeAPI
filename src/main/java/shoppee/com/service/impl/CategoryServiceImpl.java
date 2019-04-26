@@ -20,5 +20,23 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> listParentCategory = categoryRepository.getParentCategory();
 		return listParentCategory;
 	}
+
+	@Override
+	public List<Category> getCategoryByParent(Integer parent_id) {
+		List<Category> listCategoryByParent = categoryRepository.getCategoryByParent(parent_id);
+		return listCategoryByParent;
+	}
+
+	@Override
+	public List<Category> getAllCategory() {
+		List<Category> listAllCategory = categoryRepository.getAllCategory();
+		return listAllCategory;
+	}
+
+	@Override
+	public Category addCategory(Category objCategory) {
+		Category category = categoryRepository.save(objCategory);
+		return category;
+	}
 	
 }
