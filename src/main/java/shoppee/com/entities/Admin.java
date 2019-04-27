@@ -31,11 +31,14 @@ public class Admin implements Serializable {
 	@Column(name = "date_create")
 	private String date_create;
 
-	public Integer getAdminId() {
+	@Column(name = "role")
+	private String role;
+
+	public Integer getAdmin_id() {
 		return admin_id;
 	}
 
-	public void setAdminId(Integer admin_id) {
+	public void setAdmin_id(Integer admin_id) {
 		this.admin_id = admin_id;
 	}
 
@@ -63,12 +66,20 @@ public class Admin implements Serializable {
 		this.fullname = fullname;
 	}
 
-	public String getDateCreate() {
+	public String getDate_create() {
 		return date_create;
 	}
 
-	public void setDateCreate(String date_create) {
+	public void setDate_create(String date_create) {
 		this.date_create = date_create;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Admin() {
@@ -76,13 +87,14 @@ public class Admin implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Admin(Integer admin_id, String username, String password, String fullname, String date_create) {
+	public Admin(Integer admin_id, String username, String password, String fullname, String date_create, String role) {
 		super();
 		this.admin_id = admin_id;
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.date_create = date_create;
+		this.role = role;
 	}
 
 }
