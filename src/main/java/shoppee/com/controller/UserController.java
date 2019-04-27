@@ -67,7 +67,7 @@ public class UserController {
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-	@CrossOrigin()
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Integer id) {
