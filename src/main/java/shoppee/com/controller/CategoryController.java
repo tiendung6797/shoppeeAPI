@@ -23,38 +23,40 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryServiceImpl categoryService;
-	
+
 	@GetMapping("parent")
-	public ResponseEntity<List<Category>> getParentCategory(){
+	public ResponseEntity<List<Category>> getParentCategory() {
 		List<Category> listParentCategory = categoryService.getParentCategory();
-		if(listParentCategory.size() > 0) {
+		if (listParentCategory.size() > 0) {
 			return new ResponseEntity<List<Category>>(listParentCategory, HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@GetMapping("byparent/{parent_id}")
-	public ResponseEntity<List<Category>> getCategoryByParent(@PathVariable(value = "parent_id") Integer parent_id){
+	public ResponseEntity<List<Category>> getCategoryByParent(@PathVariable(value = "parent_id") Integer parent_id) {
 		List<Category> listCategoryByParent = categoryService.getCategoryByParent(parent_id);
-		if(listCategoryByParent.size() > 0) {
+		if (listCategoryByParent.size() > 0) {
 			return new ResponseEntity<List<Category>>(listCategoryByParent, HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("add")
-	public ResponseEntity<Category> addCategory(@RequestBody(required = false) Category objCategory){
+	public ResponseEntity<Category> addCategory(@RequestBody(required = false) Category objCategory) {
 		List<Category> listAllCategory = categoryService.getAllCategory();
 		boolean checkCatName = LogicHandle.functionCheckCatName(listAllCategory, objCategory);
-		if(checkCatName == true) {
+		if (checkCatName == true) {
 			Category category = categoryService.addCategory(objCategory);
 			return new ResponseEntity<Category>(category, HttpStatus.CREATED);
 		}
-		
-		CatelogyTokenResult result = new CatelogyTokenResult("False", "Danh mục đã tồn tại. Vui lòng nhập lại tên danh mục!!", objCategory);
+
+		CatelogyTokenResult result = new CatelogyTokenResult("False",
+				"Danh mục đã tồn tại. Vui lòng nhập lại tên danh mục!!", objCategory);
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
+
 }
