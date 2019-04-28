@@ -35,5 +35,12 @@ public class ReviewServiceImpl implements ReviewService{
 		// TODO Auto-generated method stub
 		reviewRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Review> getListReviewByProduct(Integer pro_id) {
+		// TODO Auto-generated method stub
+		List<Review> listReviewByProduct = reviewRepository.getListReviewByProduct(pro_id);
+		return listReviewByProduct;
+	}
 	
 }
