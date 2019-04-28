@@ -1,6 +1,7 @@
 package shoppee.com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,19 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category addCategory(Category objCategory) {
 		Category category = categoryRepository.save(objCategory);
 		return category;
+	}
+
+	@Override
+	public Category getCategoryById(Integer id) {
+		// TODO Auto-generated method stub
+		Optional<Category> objCategory = categoryRepository.findById(id);
+		return objCategory.get();
+	}
+
+	@Override
+	public void deleteCategory(Integer id) {
+		// TODO Auto-generated method stub
+		categoryRepository.deleteById(id);
 	}
 	
 }

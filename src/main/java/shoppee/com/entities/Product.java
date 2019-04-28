@@ -48,9 +48,6 @@ public class Product {
 	@Column(name = "pro_name")
 	private String pro_name;
 
-	@Column(name = "link_main_img")
-	private String link_main_img;
-
 	@Column(name = "description")
 	private String description;
 
@@ -71,13 +68,16 @@ public class Product {
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private Set<Size> listSize;
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	private Set<Review> listReview;
 
 	public Product() {
 		super();
 	}
 
 	public Product(int pro_id, int store_id, int cat_id, int sale_product, int hot_product, int active, int count_view,
-			int count_selled, double regular_price, double sale_price, String pro_name, String link_main_img,
+			int count_selled, double regular_price, double sale_price, String pro_name,
 			String description, String color, String materials, String made_in, String date_create, Set<File> listFile,
 			Set<Size> listSize) {
 		super();
@@ -92,7 +92,6 @@ public class Product {
 		this.regular_price = regular_price;
 		this.sale_price = sale_price;
 		this.pro_name = pro_name;
-		this.link_main_img = link_main_img;
 		this.description = description;
 		this.color = color;
 		this.materials = materials;
@@ -188,14 +187,6 @@ public class Product {
 
 	public void setPro_name(String pro_name) {
 		this.pro_name = pro_name;
-	}
-
-	public String getLink_main_img() {
-		return link_main_img;
-	}
-
-	public void setLink_main_img(String link_main_img) {
-		this.link_main_img = link_main_img;
 	}
 
 	public String getDescription() {

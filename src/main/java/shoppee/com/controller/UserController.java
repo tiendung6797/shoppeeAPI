@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.User;
@@ -94,14 +95,44 @@ public class UserController {
 				UserTokenResult result = new UserTokenResult("False", "Username hoặc phone đã tồn tại!", objUser);
 				return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 			} else {
-				oldUser.setPassword(objUser.getPassword());
 				oldUser.setFullname(objUser.getFullname());
 				oldUser.setPhone(objUser.getPhone());
-				oldUser.setAddress(objUser.getAddress());
 
 				userService.addUser(oldUser);
 				return new ResponseEntity<User>(oldUser, HttpStatus.OK);
 			}
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PutMapping("updatepass/{id}")
+	public ResponseEntity<User> updatePassUser(@PathVariable(value = "id") Integer id, @RequestParam(name = "password", required = false) String password) {
+		User oldUser = userService.getOneById(id);
+		if (oldUser == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		} else {
+			oldUser.setPassword(password);
+
+			userService.addUser(oldUser);
+			return new ResponseEntity<User>(oldUser, HttpStatus.OK);
+			
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PutMapping("updateaddress/{id}")
+	public ResponseEntity<User> updateAddressUser(@PathVariable(value = "id") Integer id, @RequestParam(name = "address", required = false) String address) {
+		User oldUser = userService.getOneById(id);
+		if (oldUser == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		} else {
+			oldUser.setAddress(address);
+
+			userService.addUser(oldUser);
+			return new ResponseEntity<User>(oldUser, HttpStatus.OK);
+			
 		}
 	}
 
@@ -118,4 +149,6 @@ public class UserController {
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
 	}
+	
+	// xóa user thì review, đơn hàng, ...
 }

@@ -13,5 +13,9 @@ public interface CategoryService {
 	List<Category> getAllCategory();
 	
 	Category addCategory(Category objCategory);
+	
+	Category getCategoryById(Integer id);
+	
+	void deleteCategory(Integer id);
 
 }
