@@ -180,8 +180,8 @@ public class ProductController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
-	}*/
-	
+	}
+	*/
 	/*
 	 * add product
 	 * */

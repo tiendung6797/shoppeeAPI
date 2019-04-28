@@ -61,10 +61,10 @@ public class ProductServiceImpl implements ProductService {
 		return (List<Product>) productRepository.getHotProductPagination(pageable);
 	}
 
-	@Override
+	/*@Override
 	public List<Product> getStoreProductPagination(Pageable pageable, Integer storeId) {
 		return (List<Product>) productRepository.getStoreProductPagination(pageable, storeId);
-	}
+	}*/
 
 	
 

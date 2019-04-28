@@ -13,7 +13,7 @@ public interface ProductService {
 	List<Product> getSaleProductPagination(Pageable pageable);
 	List<Product> getAllHotProduct();
 	List<Product> getHotProductPagination(Pageable pageable);
-	List<Product> getStoreProductPagination(Pageable pageable, Integer storeId);
+	/*List<Product> getStoreProductPagination(Pageable pageable, Integer storeId);*/
 	
 	void addProduct(Product objProduct);
 	Product getProductById(Integer id);
