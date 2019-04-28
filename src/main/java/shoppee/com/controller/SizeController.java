@@ -67,7 +67,7 @@ public class SizeController {
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST) 
-	public List<UploadFileResponse> addSize(@RequestParam("size-quantity") Integer[] listQuantity,
+	public ResponseEntity addSize(@RequestParam("size-quantity") Integer[] listQuantity,
 			@RequestParam("sizeType") String sizeType,
 			@RequestParam("proId") int proId, 
 			@RequestParam("files") MultipartFile[] files) {
@@ -75,7 +75,7 @@ public class SizeController {
 		Product product = productService.getProductById(proId);
 		
 		if (listQuantity.length == 0) {
-			return (List<UploadFileResponse>) new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity("Đã có lỗi xảy ra", HttpStatus.NO_CONTENT);
 		}
 		
 		
@@ -104,12 +104,15 @@ public class SizeController {
 					}
 				}
 			}
-			return Arrays.asList(files)
+
+			// upload file
+			Arrays.asList(files)
 	                .stream()
 	                .map(file -> uploadFile(file, product))
 	                .collect(Collectors.toList());
+			return new ResponseEntity("Thêm sản phẩm thành công!", HttpStatus.OK);
 		}
-		return (List<UploadFileResponse>) new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity("Đã có lỗi xảy ra", HttpStatus.NO_CONTENT);
 		
 	}
 }

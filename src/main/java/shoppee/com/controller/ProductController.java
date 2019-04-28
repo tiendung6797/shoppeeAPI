@@ -156,6 +156,31 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
 	}
 	
+	/*
+	 * get store's products pagination
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/store/{storeId}", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getStoreProductPagination(
+			@PathVariable("storeId") Integer storeId,
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		    @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		    @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_selled").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_selled").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+		List<Product> listPro = productService.getStoreProductPagination(pageable, storeId);
+		
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
 	
 	/*
 	 * add product
