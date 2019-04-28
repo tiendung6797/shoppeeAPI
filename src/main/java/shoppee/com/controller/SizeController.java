@@ -105,6 +105,7 @@ public class SizeController {
 				}
 			}
 		}
+		
 		// upload file
 		Arrays.asList(files)
                 .stream()

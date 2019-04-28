@@ -159,7 +159,7 @@ public class ProductController {
 	/*
 	 * get store's products pagination
 	 * */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/store/{storeId}", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getStoreProductPagination(
 			@PathVariable("storeId") Integer storeId,
@@ -180,7 +180,7 @@ public class ProductController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
-	}
+	}*/
 	
 	/*
 	 * add product
