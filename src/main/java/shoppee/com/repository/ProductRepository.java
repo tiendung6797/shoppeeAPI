@@ -13,6 +13,9 @@ import shoppee.com.entities.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
+	/*@Query(value ="SELECT * FROM product p", nativeQuery=true)
+	Product getAllProduct();*/
+	
 	@Query(value ="SELECT * FROM product p WHERE p.pro_id = :id", nativeQuery=true)
 	Product getProductById(@Param("id") Integer id);
 	

@@ -1,7 +1,7 @@
 package shoppee.com.exception;
 
 public class FileStorageException extends RuntimeException {
-	public FileStorageException(String message) {
+    public FileStorageException(String message) {
         super(message);
     }
 

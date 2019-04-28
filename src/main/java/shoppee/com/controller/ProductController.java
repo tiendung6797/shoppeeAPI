@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import shoppee.com.entities.Product;
 import shoppee.com.service.impl.ProductServiceImpl;
@@ -162,9 +163,18 @@ public class ProductController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	public ResponseEntity<Product> addProduct (@RequestBody Product product){
+		
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
 	}
+	
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/add",method=RequestMethod.POST)
+	public ResponseEntity<Product> addProduct (@RequestBody Product product, 
+			@RequestParam("size")){
+		productService.addProduct(product);
+		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
+	}*/
 	
 	
 	/*
@@ -185,12 +195,9 @@ public class ProductController {
 		oldProduct.setPro_name(product.getPro_name());
 		oldProduct.setStore_id(product.getStore_id());
 		oldProduct.setCat_id(product.getCat_id());
-//		oldProduct.setMain_picture(product.getMain_picture());
-//		oldProduct.setPictures(product.getPictures());
+//		oldProduct.setLink_main_img(product.getLink_main_img());
 		oldProduct.setDescription(product.getDescription());
 		oldProduct.setColor(product.getColor());
-		oldProduct.setSize(product.getSize());
-		oldProduct.setQuantity(product.getQuantity());
 		oldProduct.setMaterials(product.getMaterials());
 		oldProduct.setMade_in(product.getMade_in());
 		oldProduct.setSale_product(product.getSale_product());

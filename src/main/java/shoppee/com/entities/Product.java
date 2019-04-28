@@ -1,111 +1,108 @@
 package shoppee.com.entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "product")
 public class Product {
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pro_id;
 
 	@Column(name = "store_id")
 	private int store_id;
-	
+
 	@Column(name = "cat_id")
 	private int cat_id;
-	
+
 	@Column(name = "sale_product")
 	private int sale_product;
-	
+
 	@Column(name = "hot_product")
 	private int hot_product;
-	
-	@Column(name = "quantity")
-	private int quantity;
-	
+
 	@Column(name = "active")
 	private int active;
-	
-	
+
 	@Column(name = "count_view")
 	private int count_view;
-	
+
 	@Column(name = "count_selled")
 	private int count_selled;
-	
+
 	@Column(name = "regular_price")
 	private double regular_price;
-	
+
 	@Column(name = "sale_price")
 	private double sale_price;
-	
+
 	@Column(name = "pro_name")
 	private String pro_name;
 
-	@Column(name = "main_picture")
-	private String main_picture;
-
-	@Column(name = "pictures")
-	private String pictures;
+	@Column(name = "link_main_img")
+	private String link_main_img;
 
 	@Column(name = "description")
 	private String description;
 
 	@Column(name = "color")
 	private String color;
-	
-	@Column(name = "size")
-	private String size;
-	
+
 	@Column(name = "materials")
 	private String materials;
-	
+
 	@Column(name = "made_in")
 	private String made_in;
-	
+
 	@Column(name = "date_create")
 	private String date_create;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	private Set<File> listFile;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	private Set<Size> listSize;
 
 	public Product() {
 		super();
 	}
 
-	public Product(int pro_id, int store_id, int cat_id, int sale_product, int hot_product, int quantity, int active,
-			int count_view, int count_selled, double regular_price, double sale_price, String pro_name,
-			String main_picture, String pictures, String description, String color, String size, String materials,
-			String made_in, String date_create) {
+	public Product(int pro_id, int store_id, int cat_id, int sale_product, int hot_product, int active, int count_view,
+			int count_selled, double regular_price, double sale_price, String pro_name, String link_main_img,
+			String description, String color, String materials, String made_in, String date_create, Set<File> listFile,
+			Set<Size> listSize) {
 		super();
 		this.pro_id = pro_id;
 		this.store_id = store_id;
 		this.cat_id = cat_id;
 		this.sale_product = sale_product;
 		this.hot_product = hot_product;
-		this.quantity = quantity;
 		this.active = active;
 		this.count_view = count_view;
 		this.count_selled = count_selled;
 		this.regular_price = regular_price;
 		this.sale_price = sale_price;
 		this.pro_name = pro_name;
-		this.main_picture = main_picture;
-		this.pictures = pictures;
+		this.link_main_img = link_main_img;
 		this.description = description;
 		this.color = color;
-		this.size = size;
 		this.materials = materials;
 		this.made_in = made_in;
 		this.date_create = date_create;
+		this.listFile = listFile;
+		this.listSize = listSize;
 	}
 
-	public long getPro_id() {
+	public int getPro_id() {
 		return pro_id;
 	}
 
@@ -143,14 +140,6 @@ public class Product {
 
 	public void setHot_product(int hot_product) {
 		this.hot_product = hot_product;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public int getActive() {
@@ -201,20 +190,12 @@ public class Product {
 		this.pro_name = pro_name;
 	}
 
-	public String getMain_picture() {
-		return main_picture;
+	public String getLink_main_img() {
+		return link_main_img;
 	}
 
-	public void setMain_picture(String main_picture) {
-		this.main_picture = main_picture;
-	}
-
-	public String getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(String pictures) {
-		this.pictures = pictures;
+	public void setLink_main_img(String link_main_img) {
+		this.link_main_img = link_main_img;
 	}
 
 	public String getDescription() {
@@ -231,14 +212,6 @@ public class Product {
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
 	}
 
 	public String getMaterials() {
@@ -265,5 +238,20 @@ public class Product {
 		this.date_create = date_create;
 	}
 
-	
+	public Set<File> getListFile() {
+		return listFile;
+	}
+
+	public void setListFile(Set<File> listFile) {
+		this.listFile = listFile;
+	}
+
+	public Set<Size> getListSize() {
+		return listSize;
+	}
+
+	public void setListSize(Set<Size> listSize) {
+		this.listSize = listSize;
+	}
+
 }
