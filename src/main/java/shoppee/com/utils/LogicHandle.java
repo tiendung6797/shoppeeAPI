@@ -3,6 +3,7 @@ package shoppee.com.utils;
 import java.util.List;
 
 import shoppee.com.entities.Admin;
+import shoppee.com.entities.Category;
 import shoppee.com.entities.Store;
 import shoppee.com.entities.User;
 
@@ -71,6 +72,17 @@ public class LogicHandle {
 		if(!listStore.isEmpty() && store != null) {
 			for(Store objStore : listStore) {
 				if(objStore.getPhone().equals(store.getPhone())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean functionCheckCatName(List<Category> listAllCategory, Category objCategory) {
+		if(!listAllCategory.isEmpty() && objCategory != null) {
+			for(Category category : listAllCategory) {
+				if(objCategory.getCat_name().equals(category.getCat_name())) {
 					return false;
 				}
 			}
