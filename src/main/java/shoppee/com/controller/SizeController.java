@@ -104,15 +104,13 @@ public class SizeController {
 					}
 				}
 			}
-
-			// upload file
-			Arrays.asList(files)
-	                .stream()
-	                .map(file -> uploadFile(file, product))
-	                .collect(Collectors.toList());
-			return new ResponseEntity("Thêm sản phẩm thành công!", HttpStatus.OK);
 		}
-		return new ResponseEntity("Đã có lỗi xảy ra", HttpStatus.NO_CONTENT);
-		
+		// upload file
+		Arrays.asList(files)
+                .stream()
+                .map(file -> uploadFile(file, product))
+                .collect(Collectors.toList());
+		return new ResponseEntity("Thêm sản phẩm thành công!", HttpStatus.OK);
+		//return new ResponseEntity("Đã có lỗi xảy ra", HttpStatus.NO_CONTENT);
 	}
 }
