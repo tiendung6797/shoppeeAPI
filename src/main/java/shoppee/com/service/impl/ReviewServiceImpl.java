@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import shoppee.com.entities.Review;
@@ -37,9 +38,9 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public List<Review> getListReviewByProduct(Integer pro_id) {
+	public List<Review> getListReviewByProduct(Pageable pageable, Integer pro_id) {
 		// TODO Auto-generated method stub
-		List<Review> listReviewByProduct = reviewRepository.getListReviewByProduct(pro_id);
+		List<Review> listReviewByProduct = reviewRepository.getListReviewByProduct(pageable, pro_id);
 		return listReviewByProduct;
 	}
 	

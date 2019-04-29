@@ -6,9 +6,9 @@ public class ReviewDto {
 
 	private Integer review_id;
 	private User user;
-	private String star_number;
+	private Integer star_number;
 	private String detail;
-	private String active;
+	private Integer active;
 
 	public Integer getReview_id() {
 		return review_id;
@@ -26,11 +26,11 @@ public class ReviewDto {
 		this.user = user;
 	}
 
-	public String getStar_number() {
+	public Integer getStar_number() {
 		return star_number;
 	}
 
-	public void setStar_number(String star_number) {
+	public void setStar_number(Integer star_number) {
 		this.star_number = star_number;
 	}
 
@@ -42,11 +42,11 @@ public class ReviewDto {
 		this.detail = detail;
 	}
 
-	public String getActive() {
+	public Integer getActive() {
 		return active;
 	}
 
-	public void setActive(String active) {
+	public void setActive(Integer active) {
 		this.active = active;
 	}
 
@@ -55,7 +55,7 @@ public class ReviewDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReviewDto(Integer review_id, User user, String star_number, String detail, String active) {
+	public ReviewDto(Integer review_id, User user, Integer star_number, String detail, Integer active) {
 		super();
 		this.review_id = review_id;
 		this.user = user;

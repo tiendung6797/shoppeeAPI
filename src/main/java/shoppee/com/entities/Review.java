@@ -30,13 +30,13 @@ public class Review implements Serializable {
 	private Product product;
 
 	@Column(name = "star_number")
-	private String star_number;
+	private Integer star_number;
 
 	@Column(name = "detail")
 	private String detail;
 
 	@Column(name = "active")
-	private String active;
+	private Integer active;
 
 	public Integer getReview_id() {
 		return review_id;
@@ -62,11 +62,11 @@ public class Review implements Serializable {
 		this.product = product;
 	}
 
-	public String getStar_number() {
+	public Integer getStar_number() {
 		return star_number;
 	}
 
-	public void setStar_number(String star_number) {
+	public void setStar_number(Integer star_number) {
 		this.star_number = star_number;
 	}
 
@@ -78,11 +78,11 @@ public class Review implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getActive() {
+	public Integer getActive() {
 		return active;
 	}
 
-	public void setActive(String active) {
+	public void Integer(Integer active) {
 		this.active = active;
 	}
 
@@ -91,7 +91,7 @@ public class Review implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Review(Integer review_id, User user, Product product, String star_number, String detail, String active) {
+	public Review(Integer review_id, User user, Product product, Integer star_number, String detail, Integer active) {
 		super();
 		this.review_id = review_id;
 		this.user = user;

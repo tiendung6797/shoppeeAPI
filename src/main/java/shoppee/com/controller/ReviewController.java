@@ -3,12 +3,17 @@ package shoppee.com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.ReviewDto;
@@ -17,6 +22,7 @@ import shoppee.com.service.impl.ReviewServiceImpl;
 import shoppee.com.utils.ConvertReview;
 import shoppee.com.utils.TokenResult;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("review")
 public class ReviewController {
@@ -61,9 +67,19 @@ public class ReviewController {
 	}
 
 	@GetMapping("allByProduct/{pro_id}")
-	public ResponseEntity<List<ReviewDto>> getAllByProduct(@PathVariable(value = "pro_id") Integer pro_id) {
+	public ResponseEntity<List<ReviewDto>> getAllByProduct(@PathVariable(value = "pro_id") Integer pro_id, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		Sort sortable = null;
+		if(sort.equals("ASC")) {
+			sortable = Sort.by("review_id").ascending();
+		}
+		if(sort.equals("DESC")) {
+			sortable = Sort.by("review_id").descending();
+		}
+		Pageable pageable = PageRequest.of(page, size, sortable);
 		List<ReviewDto> listReviewDto = ConvertReview
-				.ListReviewToListReviewDto(reviewService.getListReviewByProduct(pro_id));
+				.ListReviewToListReviewDto(reviewService.getListReviewByProduct(pageable, pro_id));
 		if (listReviewDto.size() > 0) {
 			return new ResponseEntity<List<ReviewDto>>(listReviewDto, HttpStatus.OK);
 		} else {

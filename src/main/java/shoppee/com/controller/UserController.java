@@ -23,6 +23,7 @@ import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
 import shoppee.com.utils.UserTokenResult;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -68,7 +69,6 @@ public class UserController {
 		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Integer id) {
