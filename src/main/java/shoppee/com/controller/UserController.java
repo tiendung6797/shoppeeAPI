@@ -56,12 +56,31 @@ public class UserController {
 		return errorListUser;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	/*@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("register")
 	public ResponseEntity<User> addUser(@RequestBody(required = false) User objUser) {
 		List<User> listUser = userService.getAllUser();
 		boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
 		if (checkUsername == true) {
+			User user = userService.addUser(objUser);
+			return new ResponseEntity<User>(user, HttpStatus.CREATED);
+		}
+		UserTokenResult result = new UserTokenResult("False", "Username hoặc phone đã tồn tại!", objUser);
+		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
+	}*/
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping("register")
+	public ResponseEntity<User> addUser(@RequestParam(name = "email", required = false) String email, @RequestParam(name = "password", required = false) String password, 
+			@RequestParam(name = "fullname", required = false) String fullname, @RequestParam(name = "phone", required = false) String phone,
+			@RequestParam(name = "street", required = false) String street, @RequestParam(name = "ward", required = false) String ward, 
+			@RequestParam(name = "district", required = false) String district, @RequestParam(name = "city", required = false) String city){
+		String address = street + ", " + ward + ", " + district + ", " + city;
+		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, null, 1);
+		List<User> listUser = userService.getAllUser();
+		boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
+		if (checkUsername == true) {
+			
 			User user = userService.addUser(objUser);
 			return new ResponseEntity<User>(user, HttpStatus.CREATED);
 		}
@@ -120,22 +139,6 @@ public class UserController {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PutMapping("updateaddress/{id}")
-	public ResponseEntity<User> updateAddressUser(@PathVariable(value = "id") Integer id, @RequestParam(name = "address", required = false) String address) {
-		User oldUser = userService.getOneById(id);
-		if (oldUser == null) {
-			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
-			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
-		} else {
-			oldUser.setAddress(address);
-
-			userService.addUser(oldUser);
-			return new ResponseEntity<User>(oldUser, HttpStatus.OK);
-			
-		}
-	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable(value = "id") Integer id) {
