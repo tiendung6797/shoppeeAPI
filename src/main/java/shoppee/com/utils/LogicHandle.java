@@ -20,6 +20,17 @@ public class LogicHandle {
 		return true;
 	}
 	
+	public static boolean functionCheckPhone(List<User> listUser, String phone) {
+		if(!listUser.isEmpty()) {
+			for(User objUser : listUser) {
+				if(objUser.getPhone().equals(phone)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	public static boolean functionCheckName(List<Admin> listAdmin, Admin objAdmin) {
 		if(!listAdmin.isEmpty() && objAdmin != null) {
 			for(Admin admin : listAdmin) {

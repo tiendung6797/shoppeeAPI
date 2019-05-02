@@ -76,7 +76,7 @@ public class UserController {
 			@RequestParam(name = "street", required = false) String street, @RequestParam(name = "ward", required = false) String ward, 
 			@RequestParam(name = "district", required = false) String district, @RequestParam(name = "city", required = false) String city){
 		String address = street + ", " + ward + ", " + district + ", " + city;
-		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, null, 1);
+		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, "", 1);
 		List<User> listUser = userService.getAllUser();
 		boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
 		if (checkUsername == true) {
@@ -102,20 +102,26 @@ public class UserController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("update/{id}")
-	public ResponseEntity<User> updateUser(@RequestBody User objUser, @PathVariable(value = "id") Integer id) {
+	public ResponseEntity<User> updateUser(@RequestParam(name = "email", required = false) String email, @RequestParam(name = "password", required = false) String password, 
+			@RequestParam(name = "fullname", required = false) String fullname, @RequestParam(name = "phone", required = false) String phone,
+			@RequestParam(name = "street", required = false) String street, @RequestParam(name = "ward", required = false) String ward, 
+			@RequestParam(name = "district", required = false) String district, @RequestParam(name = "city", required = false) String city, @PathVariable(value = "id") Integer id) {
+		String address = street + ", " + ward + ", " + district + ", " + city;
+		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, "", 1);
 		User oldUser = userService.getOneById(id);
 		if (oldUser == null) {
 			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		} else {
 			List<User> listUser = userService.getAllUser();
-			boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
+			boolean checkUsername = LogicHandle.functionCheckPhone(listUser, phone);
 			if (checkUsername == false) {
-				UserTokenResult result = new UserTokenResult("False", "Username hoặc phone đã tồn tại!", objUser);
+				UserTokenResult result = new UserTokenResult("False", "Số phone đã tồn tại!", objUser);
 				return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 			} else {
-				oldUser.setFullname(objUser.getFullname());
-				oldUser.setPhone(objUser.getPhone());
+				oldUser.setFullname(fullname);
+				oldUser.setPhone(phone);
+				oldUser.setAddress(address);
 
 				userService.addUser(oldUser);
 				return new ResponseEntity<User>(oldUser, HttpStatus.OK);
