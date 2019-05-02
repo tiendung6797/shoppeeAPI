@@ -76,7 +76,7 @@ public class UserController {
 			@RequestParam(name = "street", required = false) String street, @RequestParam(name = "ward", required = false) String ward, 
 			@RequestParam(name = "district", required = false) String district, @RequestParam(name = "city", required = false) String city){
 		String address = street + ", " + ward + ", " + district + ", " + city;
-		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, "", 1);
+		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, null, 1);
 		List<User> listUser = userService.getAllUser();
 		boolean checkUsername = LogicHandle.functionCheckName(listUser, objUser);
 		if (checkUsername == true) {
@@ -107,7 +107,7 @@ public class UserController {
 			@RequestParam(name = "street", required = false) String street, @RequestParam(name = "ward", required = false) String ward, 
 			@RequestParam(name = "district", required = false) String district, @RequestParam(name = "city", required = false) String city, @PathVariable(value = "id") Integer id) {
 		String address = street + ", " + ward + ", " + district + ", " + city;
-		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, "", 1);
+		User objUser = new User(0, email, password, fullname, "pic1.png", phone, address, null, 1);
 		User oldUser = userService.getOneById(id);
 		if (oldUser == null) {
 			TokenResult result = new TokenResult("False", "Không tìm thấy tài khoản User!");
