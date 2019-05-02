@@ -33,8 +33,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Query("SELECT e FROM Product e WHERE e.hot_product = 1")
 	List<Product> getHotProductPagination(Pageable pageable);
-	/*
-	@Query(value ="SELECT e FROM Product e WHERE e.store_id = :storeId", nativeQuery=true)
-	List<Product> getStoreProductPagination(Pageable pageable, @Param("storeId") Integer storeId);*/
+	
+	@Query(value ="SELECT e FROM Product e WHERE e.store_id = :storeId")
+	List<Product> getStoreProductPagination(Pageable pageable, @Param("storeId") Integer storeId);
+	
+	@Query(value ="SELECT e FROM Product e WHERE e.store_id = :storeId AND e.pro_id <> :proId")
+	List<Product> getStoreProductPagination(Pageable pageable, @Param("storeId") Integer storeId, @Param("proId") Integer proId);
+	
 	
 }
