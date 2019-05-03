@@ -26,16 +26,28 @@ import shoppee.com.utils.TokenResult;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/product")
 public class ProductController {
 	@Autowired
 	ProductServiceImpl productService;
 	
 	/*
-	 * get all product
+	 * get all product for admin
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/all", method = RequestMethod.GET) 
+	@RequestMapping(value = "/admin/product/all", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getAllProductAdmin() {
+		List<Product> listPro = productService.getAllProductAdmin();
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
+	
+	/*
+	 * get all product for public (without p.active = 0)
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/all", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getAllProduct() {
 		List<Product> listPro = productService.getAllProduct();
 		if (listPro.isEmpty()) {
@@ -45,9 +57,33 @@ public class ProductController {
 	}
 	
 	/*
-	 * get product by pagination
+	 * get product by pagination for admin
 	 * */
-	@RequestMapping(value="", method = RequestMethod.GET)
+	@RequestMapping(value="/admin/product", method = RequestMethod.GET)
+	public ResponseEntity<List<Product>> getProductPaginationAdmin(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort){
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_view").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_view").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+	    List<Product> listProductPagination = productService.getProductPaginationAdmin(pageable);
+		
+	    if(listProductPagination.isEmpty()) {
+			ResponseEntity<List<Product>> errorList = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return errorList;
+		}
+		return new  ResponseEntity<>(listProductPagination,HttpStatus.OK);
+	}
+	
+	/*
+	 * get product by pagination for public
+	 * */
+	@RequestMapping(value="/product", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> getProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
 		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort){
@@ -72,7 +108,7 @@ public class ProductController {
 	 * get product by id
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET) 
 	public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) {
 		Product product = productService.getProductById(id);
 		if (product != null) {
@@ -88,7 +124,7 @@ public class ProductController {
 	 * get all sale products
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/sale/all", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/sale/all", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getAllSaleProduct() {
 		List<Product> listPro = productService.getAllSaleProduct();
 		if (listPro.isEmpty()) {
@@ -101,7 +137,7 @@ public class ProductController {
 	 * get sale products pagination
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/sale", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/sale", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getSaleProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
 		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
@@ -125,7 +161,7 @@ public class ProductController {
 	 * get all hot products
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/hot/all", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/hot/all", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getAllHotProduct() {
 		List<Product> listPro = productService.getAllHotProduct();
 		if (listPro.isEmpty()) {
@@ -138,7 +174,7 @@ public class ProductController {
 	 * get hot products pagination
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/hot", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/hot", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getHotProductPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 		      @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
 		      @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
@@ -160,10 +196,36 @@ public class ProductController {
 	
 	
 	/*
-	 * get store's products pagination
+	 * get store's products pagination for admin
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/store/{storeId}", method = RequestMethod.GET) 
+	@RequestMapping(value = "/admin/product/store/{storeId}", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getStoreProductPaginationAdmin(
+			@PathVariable("storeId") Integer storeId,
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		    @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		    @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("count_selled").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("count_selled").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+		List<Product> listPro = productService.getStoreProductPaginationAdmin(pageable, storeId);
+		
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
+	}
+	
+	/*
+	 * get store's products pagination for public
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/store/{storeId}", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getStoreProductPagination(
 			@PathVariable("storeId") Integer storeId,
 			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
@@ -185,11 +247,12 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
 	}
 	
+	
 	/*
 	 * get store's products pagination without current product
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/store/{storeId}/{proId}", method = RequestMethod.GET) 
+	@RequestMapping(value = "/product/store/{storeId}/{proId}", method = RequestMethod.GET) 
 	public ResponseEntity<List<Product>> getStoreProductPagination(
 			@PathVariable("storeId") Integer storeId,
 			@PathVariable("proId") Integer proId,
@@ -216,8 +279,8 @@ public class ProductController {
 	 * add product
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public ResponseEntity<Product> addProduct (@RequestBody Product product){
+	@RequestMapping(value="/product/add",method=RequestMethod.POST)
+	public ResponseEntity<Product> addProduct(@RequestBody Product product){
 		
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
@@ -236,7 +299,7 @@ public class ProductController {
 	 * update product
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT) 
+	@RequestMapping(value = "/product/update/{id}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer id, 
 			@Valid @RequestBody Product product) {
 		
@@ -274,7 +337,7 @@ public class ProductController {
 	 * delete product
 	 * */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE) 
+	@RequestMapping(value = "/product/delete/{id}", method = RequestMethod.DELETE) 
 	public ResponseEntity<Product> deleteProduct(@PathVariable(value = "id") Integer id) {
 		Product objProduct = productService.getProductById(id);
 		if (objProduct == null) {

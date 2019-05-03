@@ -16,8 +16,14 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository; 
 
 	@Override
-	public List<Product> getAllProduct() {
+	public List<Product> getAllProductAdmin() {
 		return (List<Product>) productRepository.findAll();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getAllProduct() {
+		return (List<Product>) productRepository.getAllProductPublic();
 	}
 
 	@Override
@@ -36,11 +42,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public List<Product> getProductPaginationAdmin(Pageable pageable) {
+		return (List<Product>) productRepository.getProductPaginationAdmin(pageable);
+	}
+	
+	@Override
 	public List<Product> getProductPagination(Pageable pageable) {
 		return (List<Product>) productRepository.getProductPagination(pageable);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Product> getAllSaleProduct() {
 		return (List<Product>) productRepository.getAllSaleProduct();
@@ -66,6 +76,11 @@ public class ProductServiceImpl implements ProductService {
 		return (List<Product>) productRepository.getStoreProductPagination(pageable, storeId, proId);
 	}
 
+	@Override
+	public List<Product> getStoreProductPaginationAdmin(Pageable pageable, Integer storeId) {
+		return (List<Product>) productRepository.getStoreProductPaginationAdmin(pageable, storeId);
+	}
+	
 	@Override
 	public List<Product> getStoreProductPagination(Pageable pageable, Integer storeId) {
 		return (List<Product>) productRepository.getStoreProductPagination(pageable, storeId);
