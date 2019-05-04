@@ -78,8 +78,7 @@ public class Product {
 
 	public Product(int pro_id, int store_id, int cat_id, int sale_product, int hot_product, int active, int count_view,
 			int count_selled, double regular_price, double sale_price, String pro_name,
-			String description, String color, String materials, String made_in, String date_create, Set<File> listFile,
-			Set<Size> listSize) {
+			String description, String color, String materials, String made_in, String date_create) {
 		super();
 		this.pro_id = pro_id;
 		this.store_id = store_id;
@@ -97,8 +96,6 @@ public class Product {
 		this.materials = materials;
 		this.made_in = made_in;
 		this.date_create = date_create;
-		this.listFile = listFile;
-		this.listSize = listSize;
 	}
 
 	public int getPro_id() {

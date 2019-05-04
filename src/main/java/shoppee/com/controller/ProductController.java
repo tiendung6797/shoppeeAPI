@@ -330,7 +330,8 @@ public class ProductController {
 	public ResponseEntity<Product> addProduct (@RequestParam("pro_name") String pro_name, 
 			@RequestParam("cat_id") int cat_id,
 			@PathVariable("storeId") int storeId){
-		Product product = new Product(0, storeId, cat_id, 0, 0, 1, 0, 0, 0, 0, pro_name, null, null, null, null, null, null, null);
+		Product product = new Product(0, storeId, cat_id, 0, 0, 1, 0, 0, 0, 0, pro_name, null, null, null, null, null);
+		//Product objPro = new Product(pro_id, store_id, cat_id, sale_product, hot_product, active, count_view, count_selled, regular_price, sale_price, pro_name, description, color, materials, made_in, date_create, listFile, listSize)
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
 	}
