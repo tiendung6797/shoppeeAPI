@@ -317,21 +317,23 @@ public class ProductController {
 	/*
 	 * add product
 	 * */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/product/add",method=RequestMethod.POST)
 	public ResponseEntity<Product> addProduct(@RequestBody Product product){
 		
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
-	}
+	}*/
 	
-	/*@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public ResponseEntity<Product> addProduct (@RequestBody Product product, 
-			@RequestParam("size")){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/product/add/{storeId}", method=RequestMethod.POST)
+	public ResponseEntity<Product> addProduct (@RequestParam("pro_name") String pro_name, 
+			@RequestParam("cat_id") int cat_id,
+			@PathVariable("storeId") int storeId){
+		Product product = new Product(0, storeId, cat_id, 0, 0, 1, 0, 0, 0, 0, pro_name, null, null, null, null, null, null, null);
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
-	}*/
+	}
 	
 	
 	/*
