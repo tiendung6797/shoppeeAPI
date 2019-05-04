@@ -110,6 +110,8 @@ public class ProductBill implements Serializable {
 	public void setBill_number(String bill_number) {
 		this.bill_number = bill_number;
 	}
+	
+	
 
 	/*public User getUser() {
 		return user;
@@ -134,6 +136,30 @@ public class ProductBill implements Serializable {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}*/
+
+	public Integer getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
+	}
+
+	public Integer getStore_id() {
+		return store_id;
+	}
+
+	public void setStore_id(Integer store_id) {
+		this.store_id = store_id;
+	}
+
+	public Integer getPayment_id() {
+		return payment_id;
+	}
+
+	public void setPayment_id(Integer payment_id) {
+		this.payment_id = payment_id;
+	}
 
 	public Float getCost() {
 		return cost;
