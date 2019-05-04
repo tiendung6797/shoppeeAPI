@@ -19,6 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query(value ="SELECT * FROM product p WHERE p.pro_id = :id", nativeQuery=true)
 	Product getProductById(@Param("id") Integer id);
 	
+	@Query(value ="SELECT * FROM product p WHERE p.store_id = :storeId ORDER BY p.pro_id DESC LIMIT 1", nativeQuery=true)
+	Product getLatestProductOfStore(@Param("storeId") Integer storeId);
+	
 	@Query("SELECT e FROM Product e")
 	List<Product> getProductPaginationAdmin(Pageable pageable);
 	

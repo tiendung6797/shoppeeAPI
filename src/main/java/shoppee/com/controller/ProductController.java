@@ -126,6 +126,24 @@ public class ProductController {
 		}
 	}
 	
+	/*
+	 * get latest product of store
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/latest/{storeId}", method = RequestMethod.GET) 
+	public ResponseEntity<Product> getLatestProduct(@PathVariable("storeId") Integer storeId) {
+		
+		Product product = productService.getLatestProductOfStore(storeId);
+		
+		if (product != null) {
+			return new ResponseEntity<Product>(product, HttpStatus.OK);
+		}
+		else {
+			ProductTokenResult result = new ProductTokenResult("False", "Không tìm thấy sản phẩm này!", null);
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	
 	/*
 	 * get product by cat id
@@ -393,7 +411,7 @@ public class ProductController {
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/product/update/countView/{proId}", method = RequestMethod.PUT) 
-	public ResponseEntity<Product> updateProduct(@RequestParam("proId") int proId) {
+	public ResponseEntity<Product> updateCountView(@RequestParam("proId") int proId) {
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
 		Product oldProduct = productService.getProductById(proId);
@@ -403,6 +421,29 @@ public class ProductController {
 		}
 		
 		oldProduct.setCount_view(oldProduct.getCount_view() + 1);
+		
+		productService.addProduct(oldProduct);
+		
+		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
+		return new ResponseEntity(result, HttpStatus.OK);
+	}
+	
+	
+	/*
+	 * update count_selled
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/update/countSelled/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> updateCountSelled(@RequestParam("proId") int proId) {
+		
+		// kiểm tra có tồn tại product có id trong database hay chưa
+		Product oldProduct = productService.getProductById(proId);
+		if(oldProduct == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+		
+		oldProduct.setCount_selled(oldProduct.getCount_selled() + 1);
 		
 		productService.addProduct(oldProduct);
 		

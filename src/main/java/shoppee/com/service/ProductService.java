@@ -9,6 +9,7 @@ import shoppee.com.entities.Product;
 public interface ProductService {
 	void addProduct(Product objProduct);
 	Product getProductById(Integer id);
+	Product getLatestProductOfStore(Integer storeId);
 	void deleteProductById(Integer id);
 	
 	List<Product> getAllProductAdmin();
