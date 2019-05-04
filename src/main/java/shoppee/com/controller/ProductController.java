@@ -337,53 +337,87 @@ public class ProductController {
 	/*
 	 * update product
 	 * */
-	/*@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/product/update/{id}", method = RequestMethod.PUT) 
-	public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer id, 
-			@RequestParam("pro_name") String pro_name) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> updateProduct(
+			@RequestParam("sizeType") String sizeType,
+			@RequestParam("proId") int proId,
+			@RequestParam("storeId") int storeId,
+			@RequestParam("cat_id") int cat_id,
+			@RequestParam("sale_product") int sale_product,
+			@RequestParam("hot_product") int hot_product,
+			@RequestParam("active") int active,
+			@RequestParam("regular_price") double regular_price,
+			@RequestParam("sale_price") double sale_price,
+			@RequestParam("pro_name") String pro_name,
+			@RequestParam("description") String description,
+			@RequestParam("color") String color,
+			@RequestParam("materials") String materials,
+			@RequestParam("made_in") String made_in,	
+			@RequestParam("size-quantity") Integer[] listQuantity,
+			@RequestParam("files") MultipartFile[] files ) {
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
-		Product oldProduct = productService.getProductById(id);
+		Product oldProduct = productService.getProductById(proId);
 		if(oldProduct == null) {
 			TokenResult result = new TokenResult("False", "Không tìm thấy!");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}
 		
-		oldProduct.setPro_name(product.getPro_name());
-		oldProduct.setStore_id(product.getStore_id());
-		oldProduct.setCat_id(product.getCat_id());
-//		oldProduct.setLink_main_img(product.getLink_main_img());
-		oldProduct.setDescription(product.getDescription());
-		oldProduct.setColor(product.getColor());
-		oldProduct.setMaterials(product.getMaterials());
-		oldProduct.setMade_in(product.getMade_in());
-		oldProduct.setSale_product(product.getSale_product());
-		oldProduct.setHot_product(product.getHot_product());
-		oldProduct.setRegular_price(product.getRegular_price());
-		oldProduct.setSale_price(product.getSale_price());
-		oldProduct.setCount_selled(product.getCount_selled());
-		oldProduct.setCount_view(product.getCount_view());
-		oldProduct.setActive(product.getActive());
+		oldProduct.setPro_name(pro_name);
+		oldProduct.setStore_id(storeId);
+		oldProduct.setCat_id(cat_id);
+		oldProduct.setDescription(description);
+		oldProduct.setColor(color);
+		oldProduct.setMaterials(materials);
+		oldProduct.setMade_in(made_in);
+		oldProduct.setSale_product(sale_product);
+		oldProduct.setHot_product(hot_product);
+		oldProduct.setRegular_price(regular_price);
+		oldProduct.setSale_price(sale_price);
+		oldProduct.setActive(active);
 		
 		productService.addProduct(oldProduct);
 		
-		ProductTokenResult result = new ProductTokenResult("Update sản phẩm thành công!", "False", oldProduct);
+		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
 		return new ResponseEntity(result, HttpStatus.OK);
-	}*/
+	}
+	
+	/*
+	 * update count_view
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/update/countView/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> updateProduct(@RequestParam("proId") int proId) {
+		
+		// kiểm tra có tồn tại product có id trong database hay chưa
+		Product oldProduct = productService.getProductById(proId);
+		if(oldProduct == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+		
+		oldProduct.setCount_view(oldProduct.getCount_view());
+		
+		productService.addProduct(oldProduct);
+		
+		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
+		return new ResponseEntity(result, HttpStatus.OK);
+	}
 	
 	
 	/*
 	 * delete product
 	 * */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/product/delete/{id}", method = RequestMethod.DELETE) 
-	public ResponseEntity<Product> deleteProduct(@PathVariable(value = "id") Integer id) {
-		Product objProduct = productService.getProductById(id);
+	@RequestMapping(value = "/product/delete/{proId}", method = RequestMethod.DELETE) 
+	public ResponseEntity<Product> deleteProduct(@PathVariable(value = "proId") Integer proId) {
+		Product objProduct = productService.getProductById(proId);
 		if (objProduct == null) {
 			TokenResult result = new TokenResult("False", "Không tìm thấy!");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		} else {
-			productService.deleteProductById(id);
+			productService.deleteProductById(proId);
 			TokenResult result = new TokenResult("Xóa thành công!", "False");
 			return new ResponseEntity(result, HttpStatus.OK);
 		}
