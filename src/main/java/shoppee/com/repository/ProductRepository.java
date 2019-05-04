@@ -45,6 +45,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Query(value ="SELECT e FROM Product e WHERE e.store_id = :storeId AND e.pro_id <> :proId AND e.active = 1")
 	List<Product> getStoreProductPagination(Pageable pageable, @Param("storeId") Integer storeId, @Param("proId") Integer proId);
+
+	@Query(value ="SELECT e FROM Product e WHERE e.cat_id = :catId AND e.active = 1")
+	List<Product> getStoreProductByCatId(Pageable pageable, @Param("catId") Integer catId);
 	
 	
 }

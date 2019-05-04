@@ -7,6 +7,10 @@ import org.springframework.data.domain.Pageable;
 import shoppee.com.entities.Product;
 
 public interface ProductService {
+	void addProduct(Product objProduct);
+	Product getProductById(Integer id);
+	void deleteProductById(Integer id);
+	
 	List<Product> getAllProductAdmin();
 	List<Product> getAllProduct();
 	
@@ -23,9 +27,7 @@ public interface ProductService {
 	List<Product> getStoreProductPaginationAdmin(Pageable pageable, Integer storeId);
 	List<Product> getStoreProductPagination(Pageable pageable, Integer storeId);
 	
+	List<Product> getProductByCatId(Pageable pageable, Integer catId);
 	
 	
-	void addProduct(Product objProduct);
-	Product getProductById(Integer id);
-	void deleteProductById(Integer id);
 }

@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import shoppee.com.entities.Category;
 import shoppee.com.entities.Product;
+import shoppee.com.service.impl.CategoryServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
 import shoppee.com.utils.ProductTokenResult;
 import shoppee.com.utils.TokenResult;
@@ -29,6 +31,9 @@ import shoppee.com.utils.TokenResult;
 public class ProductController {
 	@Autowired
 	ProductServiceImpl productService;
+	
+	@Autowired
+	CategoryServiceImpl categoryService;
 	
 	/*
 	 * get all product for admin
@@ -118,6 +123,40 @@ public class ProductController {
 			ProductTokenResult result = new ProductTokenResult("False", "Không tìm thấy sản phẩm này!", null);
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	
+	/*
+	 * get product by cat id
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/cat/{catId}", method = RequestMethod.GET) 
+	public ResponseEntity<List<Product>> getProductByCatId(@PathVariable("catId") Integer catId,
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		    @RequestParam(name = "size", required = false, defaultValue = "8") Integer size,
+		    @RequestParam(name = "sort", required = false, defaultValue = "DESC") String sort) {
+		
+		// kiểm tra có tồn tại category có id trong database hay k
+		Category cat = categoryService.getCategoryById(catId);
+		if(cat == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy danh mục!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+		
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("pro_id").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("pro_id").descending();
+	    }
+	    Pageable pageable = PageRequest.of(page, size, sortable);
+		
+		List<Product> listPro = productService.getProductByCatId(pageable, catId);
+		if (listPro.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Product>>(listPro, HttpStatus.OK);
 	}
 	
 	/*
@@ -298,10 +337,10 @@ public class ProductController {
 	/*
 	 * update product
 	 * */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/product/update/{id}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer id, 
-			@Valid @RequestBody Product product) {
+			@RequestParam("pro_name") String pro_name) {
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
 		Product oldProduct = productService.getProductById(id);
@@ -330,7 +369,7 @@ public class ProductController {
 		
 		ProductTokenResult result = new ProductTokenResult("Update sản phẩm thành công!", "False", oldProduct);
 		return new ResponseEntity(result, HttpStatus.OK);
-	}
+	}*/
 	
 	
 	/*
