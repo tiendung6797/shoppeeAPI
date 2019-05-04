@@ -38,25 +38,25 @@ public class ProductBill implements Serializable {
 
 	@Column(name = "user_id")
 	private Integer user_id;
-	
-	/*@OneToOne
+
+	@OneToOne
 	@JoinColumn(name = "user_id")
-	private User user;*/
+	private User user;
 
 	@Column(name = "store_id")
 	private Integer store_id;
-	
-	/*@OneToOne
+
+	@OneToOne
 	@JoinColumn(name = "store_id")
-	private Store store;*/
+	private Store store;
 
 	@Column(name = "payment_id")
 	private Integer payment_id;
-	
-	/*@OneToOne
+
+	@OneToOne
 	@JoinColumn(name = "payment_id")
 	private Payment payment;
-*/
+
 	@Column(name = "cost")
 	private Float cost;
 
@@ -110,10 +110,8 @@ public class ProductBill implements Serializable {
 	public void setBill_number(String bill_number) {
 		this.bill_number = bill_number;
 	}
-	
-	
 
-	/*public User getUser() {
+	public User getUser() {
 		return user;
 	}
 
@@ -135,7 +133,7 @@ public class ProductBill implements Serializable {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
-	}*/
+	}
 
 	public Integer getUser_id() {
 		return user_id;
@@ -182,7 +180,7 @@ public class ProductBill implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*public ProductBill(Integer id, String pro_name, Integer quantity, String color, String size, String bill_number,
+	public ProductBill(Integer id, String pro_name, Integer quantity, String color, String size, String bill_number,
 			User user, Store store, Payment payment, Float cost, Integer status) {
 		super();
 		this.id = id;
@@ -197,7 +195,7 @@ public class ProductBill implements Serializable {
 		this.cost = cost;
 		this.status = status;
 	}
-*/
+
 	public ProductBill(Integer id, String pro_name, Integer quantity, String color, String size, String bill_number,
 			Integer user_id, Integer store_id, Integer payment_id, Float cost, Integer status) {
 		super();
@@ -213,7 +211,5 @@ public class ProductBill implements Serializable {
 		this.cost = cost;
 		this.status = status;
 	}
-	
-	
 
 }

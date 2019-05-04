@@ -44,8 +44,8 @@ public class Store implements Serializable{
 	@Column(name = "bank_id")
 	private String bank_id;
 	
-	/*@OneToOne(mappedBy = "store", fetch = FetchType.EAGER)
-    private ProductBill productBill;*/
+	@OneToOne(mappedBy = "store", fetch = FetchType.EAGER)
+    private ProductBill productBill;
 
 	public Store() {
 		super();

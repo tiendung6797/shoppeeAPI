@@ -24,8 +24,8 @@ public class Payment implements Serializable {
 	@Column(name = "payment_name")
 	private String payment_name;
 
-	/*@OneToOne(mappedBy = "payment", fetch = FetchType.EAGER)
-	private ProductBill productBill;*/
+	@OneToOne(mappedBy = "payment", fetch = FetchType.EAGER)
+	private ProductBill productBill;
 
 	public Integer getPayment_id() {
 		return payment_id;

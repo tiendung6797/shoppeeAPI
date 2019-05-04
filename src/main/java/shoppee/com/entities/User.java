@@ -50,9 +50,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private Set<Review> listReview;
 	
-	/*@OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private ProductBill productBill;
-*/
+
 	public Integer getUser_id() {
 		return user_id;
 	}
