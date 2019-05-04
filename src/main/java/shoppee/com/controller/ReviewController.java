@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shoppee.com.dto.ReviewDto;
 import shoppee.com.entities.Review;
 import shoppee.com.service.impl.ReviewServiceImpl;
-import shoppee.com.utils.ConvertReview;
+import shoppee.com.utils.ConvertBean;
 import shoppee.com.utils.TokenResult;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -78,7 +78,7 @@ public class ReviewController {
 			sortable = Sort.by("review_id").descending();
 		}
 		Pageable pageable = PageRequest.of(page, size, sortable);
-		List<ReviewDto> listReviewDto = ConvertReview
+		List<ReviewDto> listReviewDto = ConvertBean
 				.ListReviewToListReviewDto(reviewService.getListReviewByProduct(pageable, pro_id));
 		if (listReviewDto.size() > 0) {
 			return new ResponseEntity<List<ReviewDto>>(listReviewDto, HttpStatus.OK);

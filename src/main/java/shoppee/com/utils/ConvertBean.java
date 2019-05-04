@@ -6,7 +6,7 @@ import java.util.List;
 import shoppee.com.dto.ReviewDto;
 import shoppee.com.entities.Review;
 
-public class ConvertReview {
+public class ConvertBean {
 	
 	public static List<ReviewDto> ListReviewToListReviewDto(List<Review> listReview){
 		List<ReviewDto> listReviewDto = new ArrayList<ReviewDto>();
