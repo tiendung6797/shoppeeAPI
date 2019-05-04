@@ -397,7 +397,7 @@ public class ProductController {
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}
 		
-		oldProduct.setCount_view(oldProduct.getCount_view());
+		oldProduct.setCount_view(oldProduct.getCount_view() + 1);
 		
 		productService.addProduct(oldProduct);
 		
