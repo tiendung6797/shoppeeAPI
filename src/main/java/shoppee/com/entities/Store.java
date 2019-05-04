@@ -4,11 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -44,9 +42,6 @@ public class Store implements Serializable{
 	@Column(name = "bank_id")
 	private String bank_id;
 	
-	@OneToOne(mappedBy = "store", fetch = FetchType.EAGER)
-    private ProductBill productBill;
-
 	public Store() {
 		super();
 	}

@@ -22,7 +22,6 @@ public class ProductBillServiceImpl implements ProductBillService{
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProductBill> getAllProductBill() {
 		// TODO Auto-generated method stub

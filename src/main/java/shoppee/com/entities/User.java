@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -50,9 +49,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private Set<Review> listReview;
 	
-	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
-    private ProductBill productBill;
-
 	public Integer getUser_id() {
 		return user_id;
 	}

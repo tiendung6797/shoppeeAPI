@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -39,23 +37,11 @@ public class ProductBill implements Serializable {
 	@Column(name = "user_id")
 	private Integer user_id;
 
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-
 	@Column(name = "store_id")
 	private Integer store_id;
 
-	@OneToOne
-	@JoinColumn(name = "store_id")
-	private Store store;
-
 	@Column(name = "payment_id")
 	private Integer payment_id;
-
-	@OneToOne
-	@JoinColumn(name = "payment_id")
-	private Payment payment;
 
 	@Column(name = "cost")
 	private Float cost;
@@ -111,30 +97,6 @@ public class ProductBill implements Serializable {
 		this.bill_number = bill_number;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Store getStore() {
-		return store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
-
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -178,22 +140,6 @@ public class ProductBill implements Serializable {
 	public ProductBill() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public ProductBill(Integer id, String pro_name, Integer quantity, String color, String size, String bill_number,
-			User user, Store store, Payment payment, Float cost, Integer status) {
-		super();
-		this.id = id;
-		this.pro_name = pro_name;
-		this.quantity = quantity;
-		this.color = color;
-		this.size = size;
-		this.bill_number = bill_number;
-		this.user = user;
-		this.store = store;
-		this.payment = payment;
-		this.cost = cost;
-		this.status = status;
 	}
 
 	public ProductBill(Integer id, String pro_name, Integer quantity, String color, String size, String bill_number,
