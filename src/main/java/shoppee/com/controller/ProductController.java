@@ -351,7 +351,7 @@ public class ProductController {
 			@RequestParam("cat_id") int cat_id,
 			@PathVariable("storeId") int storeId ){
 		
-		Product product = new Product(0, storeId, cat_id, 0, 0, 1, 0, 0, 0, 0, pro_name, null, null, null, null);
+		Product product = new Product(pro_name, storeId, cat_id );
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
 	}

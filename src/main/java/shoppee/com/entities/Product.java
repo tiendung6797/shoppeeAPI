@@ -77,25 +77,11 @@ public class Product {
 		super();
 	}
 
-	public Product(int pro_id, int store_id, int cat_id, int sale_product, int hot_product, int active, int count_view,
-			int count_selled, double regular_price, double sale_price, String pro_name,
-			String description, String color, String materials, String made_in) {
+	public Product( String pro_name, int store_id, int cat_id) {
 		super();
-		this.pro_id = pro_id;
 		this.store_id = store_id;
 		this.cat_id = cat_id;
-		this.sale_product = sale_product;
-		this.hot_product = hot_product;
-		this.active = active;
-		this.count_view = count_view;
-		this.count_selled = count_selled;
-		this.regular_price = regular_price;
-		this.sale_price = sale_price;
 		this.pro_name = pro_name;
-		this.description = description;
-		this.color = color;
-		this.materials = materials;
-		this.made_in = made_in;
 	}
 
 	public int getPro_id() {
