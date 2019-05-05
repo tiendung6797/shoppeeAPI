@@ -7,7 +7,8 @@ import org.springframework.data.domain.Pageable;
 import shoppee.com.entities.Product;
 
 public interface ProductService {
-	void addProduct(Product objProduct);
+	//void addProductFirst(String pro_name, int store_id, int cat_id);
+	void addProduct(Product objPro);
 	Product getProductById(Integer id);
 	Product getLatestProductOfStore(Integer storeId);
 	void deleteProductById(Integer id);

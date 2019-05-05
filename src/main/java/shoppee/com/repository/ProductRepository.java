@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,8 @@ import shoppee.com.entities.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+	
+	
 	
 	@Query(value ="SELECT * FROM product p WHERE p.active = 1", nativeQuery=true)
 	List<Product> getAllProductPublic();
@@ -51,6 +54,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query(value ="SELECT e FROM Product e WHERE e.cat_id = :catId AND e.active = 1")
 	List<Product> getStoreProductByCatId(Pageable pageable, @Param("catId") Integer catId);
+
+	/*@Modifying 
+	@Query(value ="INSERT INTO product(pro_name, store_id, cat_id) VALUES(?1, ?2, ?3)" , nativeQuery=true)
+	void addProduct(String pro_name, int store_id, int cat_id);*/
 	
 	
 }

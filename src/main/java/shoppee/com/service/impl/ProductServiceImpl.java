@@ -26,9 +26,14 @@ public class ProductServiceImpl implements ProductService {
 		return (List<Product>) productRepository.getAllProductPublic();
 	}
 
+	/*@Override
+	public void addProductFirst(String pro_name, int store_id, int cat_id) {
+		productRepository.addProduct(pro_name, store_id, cat_id);
+	}*/
+	
 	@Override
-	public void addProduct(Product objProduct) {
-		productRepository.save(objProduct);
+	public void addProduct(Product objPro) {
+		productRepository.save(objPro);
 	}
 
 	@Override
