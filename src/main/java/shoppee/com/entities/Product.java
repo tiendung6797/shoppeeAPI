@@ -61,8 +61,8 @@ public class Product {
 	@Column(name = "made_in")
 	private String made_in;
 
-	@Column(name = "date_create")
-	private Timestamp date_create;
+	/*@Column(name = "date_create")
+	private Timestamp date_create;*/
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private Set<File> listFile;
@@ -204,13 +204,13 @@ public class Product {
 		this.made_in = made_in;
 	}
 
-	public Timestamp getDate_create() {
+	/*public Timestamp getDate_create() {
 		return date_create;
 	}
 
 	public void setDate_create(Timestamp date_create) {
 		this.date_create = date_create;
-	}
+	}*/
 
 	public Set<File> getListFile() {
 		return listFile;
