@@ -345,13 +345,13 @@ public class ProductController {
 	}*/
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/product/add/{storeId}", method=RequestMethod.POST)
+	@RequestMapping(value="/product/add/{store_id}", method=RequestMethod.POST)
 	public ResponseEntity<Product> addProduct (
 			@RequestParam("pro_name") String pro_name,
 			@RequestParam("cat_id") int cat_id,
-			@PathVariable("storeId") int storeId ){
+			@PathVariable("store_id") int store_id ){
 		
-		Product product = new Product(pro_name, storeId, cat_id );
+		Product product = new Product(pro_name, store_id, cat_id);
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
 	}
