@@ -1,7 +1,9 @@
 package shoppee.com.controller;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -13,17 +15,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import shoppee.com.entities.Category;
+import shoppee.com.entities.File;
 import shoppee.com.entities.Product;
+import shoppee.com.entities.Size;
+import shoppee.com.payload.UploadFileResponse;
+import shoppee.com.service.FileStorageService;
 import shoppee.com.service.impl.CategoryServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
+import shoppee.com.service.impl.SizeSeviceImpl;
 import shoppee.com.utils.ProductTokenResult;
 import shoppee.com.utils.TokenResult;
 
@@ -35,6 +44,12 @@ public class ProductController {
 	
 	@Autowired
 	CategoryServiceImpl categoryService;
+	
+	@Autowired
+	SizeSeviceImpl sizeSeviceImpl;
+	
+	@Autowired
+    private FileStorageService fileStorageService;
 	
 	/*
 	 * get all product for admin
@@ -356,6 +371,22 @@ public class ProductController {
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
 	}
 	
+	/*
+	 * upfile
+	 * */
+	@PostMapping("/uploadFile")
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, Product product) {
+        File dbFile = fileStorageService.storeFile(file, product);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(dbFile.getFile_id())
+                .toUriString();
+
+        return new UploadFileResponse(dbFile.getFile_name(), fileDownloadUri,
+                file.getContentType(), file.getSize());
+    }
+	
 	
 	/*
 	 * update product
@@ -401,6 +432,40 @@ public class ProductController {
 		oldProduct.setActive(active);
 		
 		productService.addProduct(oldProduct);
+		
+		if ("freeSize".equalsIgnoreCase(sizeType)) {
+			for (Integer quantity : listQuantity) {
+				Size objSize = new Size(0, "free size", quantity, oldProduct);
+				sizeSeviceImpl.addSize(objSize);
+				break;
+			}
+			
+		} else {
+			if ("charSize".equalsIgnoreCase(sizeType)) {
+				String[] listCharSize = {"S", "M", "L", "XL", "XXL"};
+				
+				for (int i = 0; i < listCharSize.length; i++) {
+					Size objSize = new Size(0, listCharSize[i], listQuantity[i], oldProduct);
+					sizeSeviceImpl.addSize(objSize);
+				}
+				
+			} else {
+				if ("numberSize".equalsIgnoreCase(sizeType)) {
+					String[] listNumberSize = {"28", "29", "30", "31", "32"};
+					for (int i = 0; i < listNumberSize.length; i++) {
+						Size objSize = new Size(0, listNumberSize[i], listQuantity[i], oldProduct);
+						sizeSeviceImpl.addSize(objSize);
+					}
+				}
+			}
+		}
+		
+		// upload file
+		Arrays.asList(files)
+	        .stream()
+	        .map(file -> uploadFile(file, oldProduct))
+	        .collect(Collectors.toList());
+		
 		
 		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
 		return new ResponseEntity(result, HttpStatus.OK);
