@@ -46,7 +46,7 @@ public class PayPalClient {
 
 		RedirectUrls redirectUrls = new RedirectUrls();
 		redirectUrls.setCancelUrl("http://localhost:8080/cancel"); //thất bại 
-		redirectUrls.setReturnUrl("http://localhost:8080"); //thanh công
+		redirectUrls.setReturnUrl("http://clothes-vn.j.layershift.co.uk/paypal/complete/payment"); //thanh công
 		payment.setRedirectUrls(redirectUrls);
 		Payment createdPayment;
 		try {
