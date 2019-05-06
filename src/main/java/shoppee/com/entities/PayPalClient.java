@@ -46,7 +46,7 @@ public class PayPalClient {
 
 		RedirectUrls redirectUrls = new RedirectUrls();
 		redirectUrls.setCancelUrl("http://localhost:8080/cancel"); //thất bại 
-		redirectUrls.setReturnUrl("http://clothes-vn.j.layershift.co.uk/paypal/complete/payment"); //thanh công
+		redirectUrls.setReturnUrl("https://shopee.vn/"); //thanh công
 		payment.setRedirectUrls(redirectUrls);
 		Payment createdPayment;
 		try {
@@ -70,8 +70,8 @@ public class PayPalClient {
 		return response;
 	}
 
-	public Map<String, Object> completePayment(HttpServletRequest req) {
-		Map<String, Object> response = new HashMap();
+	/*public Map<String, Object> completePayment(HttpServletRequest req) {
+		Map<String, Object> response = new HashMap<String, Object>();
 		Payment payment = new Payment();
 		payment.setId(req.getParameter("paymentId"));
 		PaymentExecution paymentExecution = new PaymentExecution();
@@ -88,5 +88,5 @@ public class PayPalClient {
 		}
 		return response;
 	}
-
+*/
 }
