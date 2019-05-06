@@ -364,8 +364,8 @@ public class ProductController {
 	@RequestMapping(value = "/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateProduct(
 			@RequestParam("sizeType") String sizeType,
-			@RequestParam("proId") int proId,
-			@RequestParam("storeId") int storeId,
+			@PathVariable("proId") int proId,
+			@PathVariable("storeId") int storeId,
 			@RequestParam("cat_id") int cat_id,
 			@RequestParam("sale_product") int sale_product,
 			@RequestParam("hot_product") int hot_product,
