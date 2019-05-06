@@ -43,5 +43,12 @@ public class ReviewServiceImpl implements ReviewService{
 		List<Review> listReviewByProduct = reviewRepository.getListReviewByProduct(pageable, pro_id);
 		return listReviewByProduct;
 	}
+
+	@Override
+	public Review addReview(Review objReview) {
+		// TODO Auto-generated method stub
+		Review review = reviewRepository.save(objReview);
+		return review;
+	}
 	
 }

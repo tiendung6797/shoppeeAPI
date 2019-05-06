@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.ReviewDto;
+import shoppee.com.entities.Product;
 import shoppee.com.entities.Review;
+import shoppee.com.entities.User;
+import shoppee.com.service.impl.ProductServiceImpl;
 import shoppee.com.service.impl.ReviewServiceImpl;
+import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.ConvertBean;
 import shoppee.com.utils.TokenResult;
 
@@ -30,6 +35,12 @@ public class ReviewController {
 	@Autowired
 	private ReviewServiceImpl reviewService;
 
+	@Autowired
+	private UserServiceImpl userService;
+	
+	@Autowired
+	ProductServiceImpl productService;
+	
 	@GetMapping("allByStore/{store_id}")
 	public ResponseEntity<List<Review>> getAllByStore(@PathVariable(value = "store_id") Integer store_id) {
 		List<Review> listReview = reviewService.getALLReviewByStore(store_id);
@@ -85,6 +96,19 @@ public class ReviewController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+	}
+	
+	@PostMapping("add")
+	public ResponseEntity<Review> addReview(@RequestParam(name = "user_id", required = false) Integer user_id,
+		      @RequestParam(name = "pro_id", required = false) Integer pro_id, 	
+		      @RequestParam(name = "star_number", required = false) Integer star_number,
+		      @RequestParam(name = "detail", required = false) String detail) {
+		User objUser = userService.getOneById(user_id);
+		Product objProduct = productService.getProductById(pro_id);
+		Review objReview = new Review(0, objUser, objProduct, star_number, detail, 0);
+		
+		Review review = reviewService.addReview(objReview);
+		return new ResponseEntity<Review>(review, HttpStatus.CREATED);
 	}
 
 }

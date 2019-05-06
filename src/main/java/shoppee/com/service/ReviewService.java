@@ -15,4 +15,6 @@ public interface ReviewService {
 	void deleteReview(Integer id);
 	
 	List<Review> getListReviewByProduct(Pageable pageable, Integer pro_id);
+	
+	Review addReview(Review objReview);
 }

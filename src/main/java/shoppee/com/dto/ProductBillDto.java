@@ -1,52 +1,20 @@
-package shoppee.com.entities;
+package shoppee.com.dto;
 
-import java.io.Serializable;
+import shoppee.com.entities.Product;
+import shoppee.com.entities.Store;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class ProductBillDto {
 
-@Entity
-@Table(name = "productofbill")
-public class ProductBill implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column(name = "pro_id")
-	private Integer pro_id;
-
-	@Column(name = "quantity")
+	private Product product;
 	private Integer quantity;
-
-	@Column(name = "color")
 	private String color;
-
-	@Column(name = "size")
 	private String size;
-
-	@Column(name = "bill_number")
 	private String bill_number;
-
-	@Column(name = "user_id")
 	private Integer user_id;
-
-	@Column(name = "store_id")
-	private Integer store_id;
-
-	@Column(name = "payment_id")
+	private Store store;
 	private Integer payment_id;
-
-	@Column(name = "cost")
 	private Float cost;
-
-	@Column(name = "status")
 	private Integer status;
 
 	public Integer getId() {
@@ -57,19 +25,19 @@ public class ProductBill implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getPro_id() {
-		return pro_id;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setPro_id(Integer pro_id) {
-		this.pro_id = pro_id;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public Integer getquantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setquantity(Integer quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
@@ -105,12 +73,12 @@ public class ProductBill implements Serializable {
 		this.user_id = user_id;
 	}
 
-	public Integer getStore_id() {
-		return store_id;
+	public Store getStore() {
+		return store;
 	}
 
-	public void setStore_id(Integer store_id) {
-		this.store_id = store_id;
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 	public Integer getPayment_id() {
@@ -137,22 +105,22 @@ public class ProductBill implements Serializable {
 		this.status = status;
 	}
 
-	public ProductBill() {
+	public ProductBillDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductBill(Integer id, Integer pro_id, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Integer store_id, Integer payment_id, Float cost, Integer status) {
+	public ProductBillDto(Integer id, Product product, Integer quantity, String color, String size, String bill_number,
+			Integer user_id, Store store, Integer payment_id, Float cost, Integer status) {
 		super();
 		this.id = id;
-		this.pro_id = pro_id;
+		this.product = product;
 		this.quantity = quantity;
 		this.color = color;
 		this.size = size;
 		this.bill_number = bill_number;
 		this.user_id = user_id;
-		this.store_id = store_id;
+		this.store = store;
 		this.payment_id = payment_id;
 		this.cost = cost;
 		this.status = status;
