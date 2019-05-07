@@ -5,6 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,24 +22,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.Admin;
+import shoppee.com.entities.Role;
+import shoppee.com.exception.AppException;
+import shoppee.com.payload.JwtAuthenticationResponse;
+import shoppee.com.payload.LoginRequest;
+import shoppee.com.repository.RoleRepository;
+import shoppee.com.security.JwtTokenProvider;
 import shoppee.com.service.AdminService;
-import shoppee.com.service.impl.AdminServiceImpl;
+import shoppee.com.utils.AdminTokenResult;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
-import shoppee.com.utils.AdminTokenResult;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-
-	@Autowired
-	private AdminServiceImpl adminService;
 	
 	@Autowired
-	private AdminService adminService1;
+    AuthenticationManager authenticationManager;
+	
+	@Autowired
+    RoleRepository roleRepository;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Autowired
+	private AdminService adminService;
+	
+	/*@Autowired
+	private AdminService adminService1;*/
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	JwtTokenProvider tokenProvider;
+	    
+
+	/*@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("login")
 	public ResponseEntity<Admin> login(@RequestBody Admin objAdmin) {
 		if (adminService1.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword()) == null) {
@@ -45,8 +69,45 @@ public class AdminController {
 			Admin adminLogin = adminService1.getAdminByNameAndPassword(objAdmin.getUsername(), objAdmin.getPassword());
 			return new ResponseEntity<Admin>(adminLogin, HttpStatus.OK);
 		}
+	}*/
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> authenticateAdmin(@RequestBody LoginRequest loginRequest) {
+		Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                		loginRequest.getUsername(),
+                		loginRequest.getPassword()
+                )
+        );
+		
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        String jwt = tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 	
+	@Secured("ROLE_ADMIN")
+	@PostMapping("add")
+	public ResponseEntity<?> addAdmin(@RequestBody(required = false) Admin objAdmin) {
+		List<Admin> listAdmin = adminService.getAllAdmin();
+		boolean checkUsername = LogicHandle.functionCheckName(listAdmin, objAdmin);
+		if (checkUsername == false) {
+			AdminTokenResult result = new AdminTokenResult("False", "Username đã tồn tại. Vui lòng nhập lại username!", objAdmin);
+			return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		Admin admin = new Admin(objAdmin.getUsername(), objAdmin.getPassword());
+		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+		
+		Role adminRole = roleRepository.findByRoleName("ROLE_MOD")
+                .orElseThrow(() -> new AppException("User Role not set."));
+		admin.setRole(adminRole);
+		
+		adminService.addAdmin(admin);
+		return new ResponseEntity("Thêm tài khoản admin thành công!", HttpStatus.CREATED);
+	}
+	
+	@Secured("ROLE_ADMIN")
 	@GetMapping("all")
 	public ResponseEntity<List<Admin>> getAll() {
 		List<Admin> listAdmin = adminService.getAllAdmin();
@@ -57,19 +118,7 @@ public class AdminController {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping("add")
-	public ResponseEntity<Admin> addAdmin(@RequestBody(required = false) Admin objAdmin) {
-		List<Admin> listAdmin = adminService.getAllAdmin();
-		boolean checkUsername = LogicHandle.functionCheckName(listAdmin, objAdmin);
-		if (checkUsername == true) {
-			Admin admin = adminService.addAdmin(objAdmin);
-			return new ResponseEntity<Admin>(admin, HttpStatus.CREATED);
-		}
-
-		AdminTokenResult result = new AdminTokenResult("False", "Username đã tồn tại. Vui lòng nhập lại username!!", objAdmin);
-		return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
-	}
+	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")

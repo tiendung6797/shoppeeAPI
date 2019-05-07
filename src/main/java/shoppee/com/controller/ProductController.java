@@ -1,11 +1,8 @@
 package shoppee.com.controller;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -351,15 +348,15 @@ public class ProductController {
 	/*
 	 * add product
 	 * */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/product/add",method=RequestMethod.POST)
 	public ResponseEntity<Product> addProduct(@RequestBody Product product){
 		
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
-	}
+	}*/
 	
-	/*@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/product/add/{store_id}", method=RequestMethod.POST)
 	public ResponseEntity<Product> addProduct (
 			@RequestParam("pro_name") String pro_name,
@@ -369,7 +366,7 @@ public class ProductController {
 		Product product = new Product(pro_name, store_id, cat_id);
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
-	}*/
+	}
 	
 	/*
 	 * upfile

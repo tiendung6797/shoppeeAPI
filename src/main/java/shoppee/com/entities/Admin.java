@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "admin")
@@ -18,27 +21,46 @@ public class Admin implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer admin_id;
-
-	@Column(name = "username")
 	private String username;
-
-	@Column(name = "password")
 	private String password;
 
-	@Column(name = "fullname")
 	private String fullname;
 
-	@Column(name = "date_create")
-	private String date_create;
+	@ManyToOne
+	@JoinColumn(name="role_id")
+	private Role role_id;
 
-	@Column(name = "role")
-	private String role;
+	public Admin() {
+		super();
+	}
+	
+	public Admin(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+	
+	public Admin(String username, String password, Role role_id) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role_id = role_id;
+	}
 
-	public Integer getAdmin_id() {
+	public Admin(Integer admin_id, String username, String password, String fullname,Role role_id) {
+		super();
+		this.admin_id = admin_id;
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role_id = role_id;
+	}
+
+	public Integer getId() {
 		return admin_id;
 	}
 
-	public void setAdmin_id(Integer admin_id) {
+	public void setId(Integer admin_id) {
 		this.admin_id = admin_id;
 	}
 
@@ -66,35 +88,13 @@ public class Admin implements Serializable {
 		this.fullname = fullname;
 	}
 
-	public String getDate_create() {
-		return date_create;
+	public Role getRole() {
+		return role_id;
 	}
 
-	public void setDate_create(String date_create) {
-		this.date_create = date_create;
+	public void setRole(Role role_id) {
+		this.role_id = role_id;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public Admin() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Admin(Integer admin_id, String username, String password, String fullname, String date_create, String role) {
-		super();
-		this.admin_id = admin_id;
-		this.username = username;
-		this.password = password;
-		this.fullname = fullname;
-		this.date_create = date_create;
-		this.role = role;
-	}
-
+	
 }
