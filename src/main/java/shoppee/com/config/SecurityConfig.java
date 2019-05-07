@@ -87,7 +87,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                    .and()
 	                .authorizeRequests()
 	                	.antMatchers(AUTH_WHITELIST).permitAll()
-	                	.antMatchers("/**/*").denyAll()
 	                    .antMatchers("/",
 	                        "/favicon.ico",
 	                        "/**/*.png",
