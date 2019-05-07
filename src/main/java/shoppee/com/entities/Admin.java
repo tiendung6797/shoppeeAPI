@@ -92,8 +92,8 @@ public class Admin implements Serializable {
 		return role_id;
 	}
 
-	public void setRole(Role role_id) {
-		this.role_id = role_id;
+	public void setRole(Role role) {
+		this.role_id = role;
 	}
 
 	

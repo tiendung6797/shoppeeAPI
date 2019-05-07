@@ -12,8 +12,8 @@ import shoppee.com.entities.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 	
-	Optional<Role> findByRoleName(String roleName);
+	//Optional<Role> findByRoleName(String roleName);
 	
-	/*@Query( value = "SELECT * FROM role WHERE role_name = ?1", nativeQuery=true )
-	Role findByRoleName(String role_name);*/
+	@Query( value = "SELECT * FROM role WHERE role_name = ?1", nativeQuery=true )
+	Role findByRoleName(String role_name);
 }

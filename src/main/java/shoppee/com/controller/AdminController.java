@@ -86,7 +86,7 @@ public class AdminController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@PostMapping("add")
 	public ResponseEntity<?> addAdmin(@RequestBody(required = false) Admin objAdmin) {
 		List<Admin> listAdmin = adminService.getAllAdmin();
@@ -99,15 +99,15 @@ public class AdminController {
 		Admin admin = new Admin(objAdmin.getUsername(), objAdmin.getPassword());
 		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 		
-		Role adminRole = roleRepository.findByRoleName("ROLE_MOD")
-                .orElseThrow(() -> new AppException("User Role not set."));
+		Role adminRole = roleRepository.findByRoleName("ROLE_MOD");
+                /*.orElseThrow(() -> new AppException("User Role not set."));*/
 		admin.setRole(adminRole);
 		
 		adminService.addAdmin(admin);
 		return new ResponseEntity("Thêm tài khoản admin thành công!", HttpStatus.CREATED);
 	}
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@GetMapping("all")
 	public ResponseEntity<List<Admin>> getAll() {
 		List<Admin> listAdmin = adminService.getAllAdmin();

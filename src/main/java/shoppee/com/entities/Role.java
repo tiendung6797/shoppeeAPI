@@ -12,38 +12,40 @@ import javax.persistence.Table;
 @Table(name = "role")
 public class Role implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int roleId;
-	private String roleName;
+	private int role_id;
+	private String role_name;
 //	@OneToMany(mappedBy="roleId", cascade = CascadeType.ALL,targetEntity=User.class)
 //	private Set users;
 	
-	public Role(String roleName) {
+	public Role(String role_name) {
 		super();
-		this.roleName = roleName;
+		this.role_name = role_name;
 	}
+	
 	public Role() {
 		super();
 	}
-	
-	public Role(int roleId, String roleName) {
+	public Role(int role_id, String role_name) {
 		super();
-		this.roleId = roleId;
-		this.roleName = roleName;
+		this.role_id = role_id;
+		this.role_name = role_name;
 	}
-	public int getroleId() {
-		return roleId;
+	public int getRole_id() {
+		return role_id;
 	}
-	public void setroleId(int roleId) {
-		this.roleId = roleId;
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
 	}
-	public String getroleName() {
-		return roleName;
+	public String getRole_name() {
+		return role_name;
 	}
-	public void setroleName(String roleName) {
-		this.roleName = roleName;
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
 	}
+	
 //	public Set getUsers() {
 //		return users;
 //	}
