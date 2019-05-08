@@ -1,6 +1,7 @@
 package shoppee.com.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import shoppee.com.entities.Role;
 import shoppee.com.exception.AppException;
 import shoppee.com.payload.JwtAuthenticationResponse;
 import shoppee.com.payload.LoginRequest;
+import shoppee.com.repository.AdminRepository;
 import shoppee.com.repository.RoleRepository;
 import shoppee.com.security.JwtTokenProvider;
 import shoppee.com.security.UserPrincipal;
@@ -44,6 +46,9 @@ public class AdminController {
 	
 	@Autowired
     RoleRepository roleRepository;
+	
+	@Autowired
+    AdminRepository adminRepository;
 
 	@Autowired
 	private AdminService adminService;
@@ -90,8 +95,11 @@ public class AdminController {
 	//@Secured("ROLE_ADMIN")
 	@PostMapping("add")
 	public ResponseEntity<?> addAdmin(UserPrincipal userLogin, @RequestBody(required = false) Admin objAdmin) {
-		//if (userLogin.)
-		
+		Admin ad = adminRepository.findByUsername(userLogin.getUsername());
+		if (ad.getRole().getRole_id() != 1) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		List<Admin> listAdmin = adminService.getAllAdmin();
 		boolean checkUsername = LogicHandle.functionCheckName(listAdmin, objAdmin);

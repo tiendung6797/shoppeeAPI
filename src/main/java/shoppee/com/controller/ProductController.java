@@ -1,5 +1,6 @@
 package shoppee.com.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -404,9 +405,13 @@ public class ProductController {
 			@RequestParam("description") String description,
 			@RequestParam("color") String color,
 			@RequestParam("materials") String materials,
-			@RequestParam("made_in") String made_in,	
-			@RequestParam("size-quantity") Integer[] listQuantity,
-			@RequestParam("files") MultipartFile[] files ) {
+			@RequestParam("made_in") String made_in,
+			@RequestParam("size1") Integer size1,
+			@RequestParam("size2") Integer size2,
+			@RequestParam("size3") Integer size3,
+			@RequestParam("size4") Integer size4,
+			@RequestParam("size5") Integer size5,
+			@RequestParam("listFile") MultipartFile[] files ) {
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
 		Product oldProduct = productService.getProductById(proId);
@@ -430,19 +435,22 @@ public class ProductController {
 		
 		productService.addProduct(oldProduct);
 		
+		ArrayList<Integer> listSizeQuantity = new ArrayList<>();
+		listSizeQuantity.add(size1);
+		listSizeQuantity.add(size2);
+		listSizeQuantity.add(size3);
+		listSizeQuantity.add(size4);
+		listSizeQuantity.add(size5);
+		
 		if ("freeSize".equalsIgnoreCase(sizeType)) {
-			for (Integer quantity : listQuantity) {
-				Size objSize = new Size(0, "free size", quantity, oldProduct);
-				sizeSeviceImpl.addSize(objSize);
-				break;
-			}
-			
+			Size objSize = new Size("free size", size1);
+			sizeSeviceImpl.addSize(objSize);
 		} else {
 			if ("charSize".equalsIgnoreCase(sizeType)) {
 				String[] listCharSize = {"S", "M", "L", "XL", "XXL"};
 				
 				for (int i = 0; i < listCharSize.length; i++) {
-					Size objSize = new Size(0, listCharSize[i], listQuantity[i], oldProduct);
+					Size objSize = new Size(listCharSize[i], listSizeQuantity.get(i));
 					sizeSeviceImpl.addSize(objSize);
 				}
 				
@@ -450,7 +458,7 @@ public class ProductController {
 				if ("numberSize".equalsIgnoreCase(sizeType)) {
 					String[] listNumberSize = {"28", "29", "30", "31", "32"};
 					for (int i = 0; i < listNumberSize.length; i++) {
-						Size objSize = new Size(0, listNumberSize[i], listQuantity[i], oldProduct);
+						Size objSize = new Size(listNumberSize[i], listSizeQuantity.get(i));
 						sizeSeviceImpl.addSize(objSize);
 					}
 				}
