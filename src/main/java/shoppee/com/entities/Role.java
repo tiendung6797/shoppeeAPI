@@ -1,11 +1,13 @@
 package shoppee.com.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,8 +18,9 @@ public class Role implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int role_id;
 	private String role_name;
-//	@OneToMany(mappedBy="roleId", cascade = CascadeType.ALL,targetEntity=User.class)
-//	private Set users;
+	
+	@OneToMany(mappedBy="role")
+	private Set<Admin> admin;
 	
 	public Role(String roleName) {
 		super();

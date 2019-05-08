@@ -28,7 +28,7 @@ public class Admin implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="role_id")
-	private Role role_id;
+	private Role role;
 
 	public Admin() {
 		super();
@@ -40,20 +40,20 @@ public class Admin implements Serializable {
 		this.password = password;
 	}
 	
-	public Admin(String username, String password, Role role_id) {
+	public Admin(String username, String password, Role role) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.role_id = role_id;
+		this.role = role;
 	}
 
-	public Admin(Integer admin_id, String username, String password, String fullname,Role role_id) {
+	public Admin(Integer admin_id, String username, String password, String fullname, Role role) {
 		super();
 		this.admin_id = admin_id;
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
-		this.role_id = role_id;
+		this.role = role;
 	}
 
 	public Integer getId() {
@@ -89,11 +89,11 @@ public class Admin implements Serializable {
 	}
 
 	public Role getRole() {
-		return role_id;
+		return role;
 	}
 
 	public void setRole(Role role) {
-		this.role_id = role;
+		this.role = role;
 	}
 
 	

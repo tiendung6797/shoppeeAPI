@@ -109,12 +109,12 @@ public class AdminController {
 			return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
-		Admin admin = new Admin(objAdmin.getUsername(), objAdmin.getPassword());
+		Admin admin = new Admin(0, objAdmin.getUsername(), objAdmin.getPassword(), objAdmin.getFullname(), objAdmin.getRole());
 		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 		
-		Role adminRole = roleRepository.findByRoleName("ROLE_MOD");
-                /*.orElseThrow(() -> new AppException("User Role not set."));*/
-		admin.setRole(adminRole);
+//		Role adminRole = roleRepository.findByRoleName("MOD");
+//                /*.orElseThrow(() -> new AppException("User Role not set."));*/
+//		admin.setRole(adminRole);
 		
 		adminService.addAdmin(admin);
 		return new ResponseEntity("Thêm tài khoản admin thành công!", HttpStatus.CREATED);
