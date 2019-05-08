@@ -53,5 +53,11 @@ public class ProductBillServiceImpl implements ProductBillService{
 		return (List<ProductBill>) productBillRepository.getProductByStore(store_id);
 	}
 
+	@Override
+	public List<ProductBill> getBill() {
+		// TODO Auto-generated method stub
+		return (List<ProductBill>) productBillRepository.getBill();
+	}
+
 
 }

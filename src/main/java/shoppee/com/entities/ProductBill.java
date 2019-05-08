@@ -44,7 +44,7 @@ public class ProductBill implements Serializable {
 	private Integer payment_id;
 
 	@Column(name = "cost")
-	private Float cost;
+	private double cost;
 
 	@Column(name = "status")
 	private Integer status;
@@ -121,11 +121,11 @@ public class ProductBill implements Serializable {
 		this.payment_id = payment_id;
 	}
 
-	public Float getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(Float cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
@@ -143,7 +143,7 @@ public class ProductBill implements Serializable {
 	}
 
 	public ProductBill(Integer id, Integer pro_id, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Integer store_id, Integer payment_id, Float cost, Integer status) {
+			Integer user_id, Integer store_id, Integer payment_id, double cost, Integer status) {
 		super();
 		this.id = id;
 		this.pro_id = pro_id;

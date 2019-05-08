@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shoppee.com.dto.BillDto;
 import shoppee.com.dto.ProductBillDto;
 import shoppee.com.entities.Product;
 import shoppee.com.entities.ProductBill;
@@ -54,7 +55,16 @@ public class ProductBillController {
 		
 		if(listProductBill.size() > 0) {
 			for(ProductBill objProductBill : listProductBill) {
-				productBillService.addProductBill(objProductBill);
+				Product objProduct = productService.getProductById(objProductBill.getPro_id());
+				if(objProduct.getSale_price() == 0) {
+					ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProductBill.getquantity(), objProduct.getColor(), 
+							objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getRegular_price()*objProductBill.getquantity(), 0);
+					productBillService.addProductBill(productBill);
+				}else {
+					ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProductBill.getquantity(), objProduct.getColor(), 
+							objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getSale_price()*objProductBill.getquantity(), 0);
+					productBillService.addProductBill(productBill);
+				}
 			}
 			return new ResponseEntity<>(HttpStatus.OK);	
 		}
@@ -139,4 +149,16 @@ public class ProductBillController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
+	
+	/*@GetMapping("bill")
+	public ResponseEntity<List<ProductBill>> getBill(){
+		List<ProductBill> listProductBill = productBillService.getBill();
+		
+		if (listProductBill.size() > 0) {
+			return new ResponseEntity<List<ProductBill>>(listProductBill, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}*/
+	
 }

@@ -14,7 +14,7 @@ public class ProductBillDto {
 	private Integer user_id;
 	private Store store;
 	private Integer payment_id;
-	private Float cost;
+	private double cost;
 	private Integer status;
 
 	public Integer getId() {
@@ -89,11 +89,11 @@ public class ProductBillDto {
 		this.payment_id = payment_id;
 	}
 
-	public Float getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(Float cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
@@ -111,7 +111,7 @@ public class ProductBillDto {
 	}
 
 	public ProductBillDto(Integer id, Product product, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Store store, Integer payment_id, Float cost, Integer status) {
+			Integer user_id, Store store, Integer payment_id, double cost, Integer status) {
 		super();
 		this.id = id;
 		this.product = product;

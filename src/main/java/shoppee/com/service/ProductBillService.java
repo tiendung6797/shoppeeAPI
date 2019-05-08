@@ -18,4 +18,6 @@ public interface ProductBillService {
 	
 	List<ProductBill> getProductByStore(Integer store_id);
 	
+	List<ProductBill> getBill();
+	
 }
