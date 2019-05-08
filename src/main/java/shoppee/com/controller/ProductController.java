@@ -391,6 +391,96 @@ public class ProductController {
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/product/add/{storeId}/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> addProduct(
+			@RequestParam("sizeType") String sizeType,
+			@PathVariable("proId") int proId,
+			@PathVariable("storeId") int storeId,
+			@RequestParam("cat_id") int cat_id,
+			@RequestParam("sale_product") int sale_product,
+			@RequestParam("hot_product") int hot_product,
+			@RequestParam("active") int active,
+			@RequestParam("regular_price") double regular_price,
+			@RequestParam("sale_price") double sale_price,
+			@RequestParam("pro_name") String pro_name,
+			@RequestParam("description") String description,
+			@RequestParam("color") String color,
+			@RequestParam("materials") String materials,
+			@RequestParam("made_in") String made_in,
+			@RequestParam("size1") Integer size1,
+			@RequestParam("size2") Integer size2,
+			@RequestParam("size3") Integer size3,
+			@RequestParam("size4") Integer size4,
+			@RequestParam("size5") Integer size5,
+			@RequestParam("listFile") MultipartFile[] files ) {
+		
+		// kiểm tra có tồn tại product có id trong database hay chưa
+		Product oldProduct = productService.getProductById(proId);
+		if(oldProduct == null) {
+			TokenResult result = new TokenResult("False", "Không tìm thấy!");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}
+		
+		oldProduct.setPro_name(pro_name);
+		oldProduct.setStore_id(storeId);
+		oldProduct.setCat_id(cat_id);
+		oldProduct.setDescription(description);
+		oldProduct.setColor(color);
+		oldProduct.setMaterials(materials);
+		oldProduct.setMade_in(made_in);
+		oldProduct.setSale_product(sale_product);
+		oldProduct.setHot_product(hot_product);
+		oldProduct.setRegular_price(regular_price);
+		oldProduct.setSale_price(sale_price);
+		oldProduct.setActive(active);
+		
+		productService.addProduct(oldProduct);
+		
+		ArrayList<Integer> listSizeQuantity = new ArrayList<>();
+		listSizeQuantity.add(size1);
+		listSizeQuantity.add(size2);
+		listSizeQuantity.add(size3);
+		listSizeQuantity.add(size4);
+		listSizeQuantity.add(size5);
+		
+		if ("freeSize".equalsIgnoreCase(sizeType)) {
+			Size objSize = new Size("free size", size1);
+			sizeSeviceImpl.addSize(objSize);
+		} else {
+			if ("charSize".equalsIgnoreCase(sizeType)) {
+				String[] listCharSize = {"S", "M", "L", "XL", "XXL"};
+				
+				for (int i = 0; i < listCharSize.length; i++) {
+					Size objSize = new Size(listCharSize[i], listSizeQuantity.get(i));
+					sizeSeviceImpl.addSize(objSize);
+				}
+				
+			} else {
+				if ("numberSize".equalsIgnoreCase(sizeType)) {
+					String[] listNumberSize = {"28", "29", "30", "31", "32"};
+					for (int i = 0; i < listNumberSize.length; i++) {
+						Size objSize = new Size(listNumberSize[i], listSizeQuantity.get(i));
+						sizeSeviceImpl.addSize(objSize);
+					}
+				}
+			}
+		}
+		
+		// upload file
+		Arrays.asList(files)
+	        .stream()
+	        .map(file -> uploadFile(file, oldProduct))
+	        .collect(Collectors.toList());
+		
+		
+		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
+		return new ResponseEntity(result, HttpStatus.OK);
+	}
+	
+	/*
+	 * update product 
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateProduct(
 			@RequestParam("sizeType") String sizeType,
 			@PathVariable("proId") int proId,

@@ -1,5 +1,6 @@
 package shoppee.com.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,9 +95,9 @@ public class AdminController {
 	
 	//@Secured("ROLE_ADMIN")
 	@PostMapping("add")
-	public ResponseEntity<?> addAdmin(UserPrincipal userLogin, @RequestBody(required = false) Admin objAdmin) {
-		Admin ad = adminRepository.findByUsername(userLogin.getUsername());
-		if (ad.getRole().getRole_id() != 1) {
+	public ResponseEntity<?> addAdmin(Principal userLogin, @RequestBody(required = false) Admin objAdmin) {
+		Admin ad = adminRepository.findByUsername(userLogin.getName());
+		if (ad.getRole().getroleId() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -121,7 +122,13 @@ public class AdminController {
 	
 	//@Secured("ROLE_ADMIN")
 	@GetMapping("all")
-	public ResponseEntity<List<Admin>> getAll() {
+	public ResponseEntity<List<Admin>> getAll(Principal userLogin) {
+		Admin ad = adminRepository.findByUsername(userLogin.getName());
+		if (ad.getRole().getroleId() != 1) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 		List<Admin> listAdmin = adminService.getAllAdmin();
 		if (listAdmin.size() > 0) {
 			return new ResponseEntity<List<Admin>>(listAdmin, HttpStatus.OK);
