@@ -15,7 +15,7 @@ public class ProductBillDto {
 	private Store store;
 	private Integer payment_id;
 	private double cost;
-	private Integer status;
+	private String status;
 
 	public Integer getId() {
 		return id;
@@ -97,11 +97,11 @@ public class ProductBillDto {
 		this.cost = cost;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -111,7 +111,7 @@ public class ProductBillDto {
 	}
 
 	public ProductBillDto(Integer id, Product product, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Store store, Integer payment_id, double cost, Integer status) {
+			Integer user_id, Store store, Integer payment_id, double cost, String status) {
 		super();
 		this.id = id;
 		this.product = product;

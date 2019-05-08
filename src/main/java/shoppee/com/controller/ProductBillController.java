@@ -57,13 +57,25 @@ public class ProductBillController {
 			for(ProductBill objProductBill : listProductBill) {
 				Product objProduct = productService.getProductById(objProductBill.getPro_id());
 				if(objProduct.getSale_price() == 0) {
-					ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProductBill.getquantity(), objProduct.getColor(), 
-							objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getRegular_price()*objProductBill.getquantity(), 0);
-					productBillService.addProductBill(productBill);
+					if(objProductBill.getPayment_id() == 1) {
+						ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProduct.getPro_name(), objProductBill.getQuantity(), objProduct.getColor(), 
+								objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getRegular_price()*objProductBill.getQuantity(), "Chưa thanh toán-Chưa giao hàng");
+						productBillService.addProductBill(productBill);
+					}else {
+						ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProduct.getPro_name(), objProductBill.getQuantity(), objProduct.getColor(), 
+								objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getRegular_price()*objProductBill.getQuantity(), "Đã thanh toán-Chưa giao hàng");
+						productBillService.addProductBill(productBill);
+					}
 				}else {
-					ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProductBill.getquantity(), objProduct.getColor(), 
-							objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getSale_price()*objProductBill.getquantity(), 0);
-					productBillService.addProductBill(productBill);
+					if(objProductBill.getPayment_id() == 1) {
+						ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProduct.getPro_name(), objProductBill.getQuantity(), objProduct.getColor(), 
+								objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getSale_price()*objProductBill.getQuantity(), "Chưa thanh toán-Chưa giao hàng");
+						productBillService.addProductBill(productBill);
+					}else {
+						ProductBill productBill = new ProductBill(0, objProductBill.getPro_id(), objProduct.getPro_name(), objProductBill.getQuantity(), objProduct.getColor(), 
+								objProductBill.getSize(), objProductBill.getBill_number(), objProductBill.getUser_id(), objProduct.getStore_id(), objProductBill.getPayment_id(), objProduct.getSale_price()*objProductBill.getQuantity(), "Đã thanh toán-Chưa giao hàng");
+						productBillService.addProductBill(productBill);
+					}
 				}
 			}
 			return new ResponseEntity<>(HttpStatus.OK);	
@@ -89,13 +101,13 @@ public class ProductBillController {
 		for(ProductBill objProductBill : listProductBill) {
 			Product objProduct = productService.getProductById(objProductBill.getPro_id());
 			Store objStore = storeService.getOneById(objProductBill.getStore_id());
-			listProductBillNomoney.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getquantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
+			listProductBillNomoney.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getQuantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
 							objProductBill.getUser_id(), objStore, objProductBill.getPayment_id(), objProductBill.getCost(), objProductBill.getStatus()));
 		}
 		if (listProductBillNomoney.size() > 0) {
 			return new ResponseEntity<List<ProductBillDto>>(listProductBillNomoney, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ProductBillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
@@ -106,13 +118,13 @@ public class ProductBillController {
 		for(ProductBill objProductBill : listProductBill) {
 			Product objProduct = productService.getProductById(objProductBill.getPro_id());
 			Store objStore = storeService.getOneById(objProductBill.getStore_id());
-			listProductBillYesmoney.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getquantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
+			listProductBillYesmoney.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getQuantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
 							objProductBill.getUser_id(), objStore, objProductBill.getPayment_id(), objProductBill.getCost(), objProductBill.getStatus()));
 		}
 		if (listProductBillYesmoney.size() > 0) {
 			return new ResponseEntity<List<ProductBillDto>>(listProductBillYesmoney, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ProductBillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
@@ -123,13 +135,13 @@ public class ProductBillController {
 		for(ProductBill objProductBill : listProductBill) {
 			Product objProduct = productService.getProductById(objProductBill.getPro_id());
 			Store objStore = storeService.getOneById(objProductBill.getStore_id());
-			listProductBillCancel.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getquantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
+			listProductBillCancel.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getQuantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
 							objProductBill.getUser_id(), objStore, objProductBill.getPayment_id(), objProductBill.getCost(), objProductBill.getStatus()));
 		}
 		if (listProductBillCancel.size() > 0) {
 			return new ResponseEntity<List<ProductBillDto>>(listProductBillCancel, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ProductBillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
@@ -140,17 +152,17 @@ public class ProductBillController {
 		for(ProductBill objProductBill : listProductBill) {
 			Product objProduct = productService.getProductById(objProductBill.getPro_id());
 			Store objStore = storeService.getOneById(objProductBill.getStore_id());
-			listProductBillByStore.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getquantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
+			listProductBillByStore.add(new ProductBillDto(objProductBill.getId(), objProduct, objProductBill.getQuantity(), objProductBill.getColor(), objProductBill.getSize(), objProductBill.getBill_number(), 
 							objProductBill.getUser_id(), objStore, objProductBill.getPayment_id(), objProductBill.getCost(), objProductBill.getStatus()));
 		}
 		if (listProductBillByStore.size() > 0) {
 			return new ResponseEntity<List<ProductBillDto>>(listProductBillByStore, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ProductBillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
-	/*@GetMapping("bill")
+	@GetMapping("bill")
 	public ResponseEntity<List<ProductBill>> getBill(){
 		List<ProductBill> listProductBill = productBillService.getBill();
 		
@@ -159,6 +171,6 @@ public class ProductBillController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-	}*/
+	}
 	
 }
