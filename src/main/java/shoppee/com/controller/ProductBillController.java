@@ -21,12 +21,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shoppee.com.dto.BillDto;
 import shoppee.com.dto.ProductBillDto;
+import shoppee.com.entities.Payment;
 import shoppee.com.entities.Product;
 import shoppee.com.entities.ProductBill;
 import shoppee.com.entities.Store;
+import shoppee.com.entities.User;
+import shoppee.com.service.impl.PaymentServiceImpl;
 import shoppee.com.service.impl.ProductBillServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
 import shoppee.com.service.impl.StoreServiceImpl;
+import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.TokenResult;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -42,6 +46,12 @@ public class ProductBillController {
 	
 	@Autowired
 	StoreServiceImpl storeService;
+	
+	@Autowired
+	private UserServiceImpl userService;
+	
+	@Autowired
+	private PaymentServiceImpl paymentService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("buy")
@@ -162,15 +172,28 @@ public class ProductBillController {
 		}
 	}
 	
-	@GetMapping("bill")
-	public ResponseEntity<List<ProductBill>> getBill(){
+	/*@GetMapping("ByBill")
+	public ResponseEntity<List<BillDto>> getByBill(){
+		List<BillDto> listByBill = new ArrayList<BillDto>();
 		List<ProductBill> listProductBill = productBillService.getBill();
-		
-		if (listProductBill.size() > 0) {
-			return new ResponseEntity<List<ProductBill>>(listProductBill, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		for(ProductBill objProductBill : listProductBill) {
+			User objUser = userService.getOneById(objProductBill.getUser_id());
+			Payment objPayment = paymentService.getPaymentById(objProductBill.getPayment_id());
+			listByBill.add(new BillDto(objProductBill.getBill_number(), objUser.getFullname(), objUser.getAddress(), sum_cost, objPayment.getPayment_name(), objProductBill.getStatus()));
 		}
+		
 	}
+	
+	@GetMapping("ByStore")
+	public ResponseEntity<List<BillDto>> getByStore(){
+		List<BillDto> listByBill = new ArrayList<BillDto>();
+		List<ProductBill> listProductBill = productBillService.getBill();
+		for(ProductBill objProductBill : listProductBill) {
+			User objUser = userService.getOneById(objProductBill.getUser_id());
+			Payment objPayment = paymentService.getPaymentById(objProductBill.getPayment_id());
+			listByBill.add(new BillDto(objProductBill.getBill_number(), objUser.getFullname(), objUser.getAddress(), sum_cost, objPayment.getPayment_name(), objProductBill.getStatus()));
+		}
+		
+	}*/
 	
 }

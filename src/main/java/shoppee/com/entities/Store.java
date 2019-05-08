@@ -11,37 +11,37 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "store")
-public class Store implements Serializable{
+public class Store implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer store_id;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "password")
 	private String password;
-	
+
 	@Column(name = "storeowner_name")
 	private String storeowner_name;
-	
+
 	@Column(name = "store_name")
 	private String store_name;
-	
+
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "bank_name")
 	private String bank_name;
-	
+
 	@Column(name = "bank_id")
 	private String bank_id;
-	
+
 	public Store() {
 		super();
 	}
@@ -131,13 +131,5 @@ public class Store implements Serializable{
 	public void setBank_id(String bank_id) {
 		this.bank_id = bank_id;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
