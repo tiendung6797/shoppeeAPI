@@ -28,6 +28,7 @@ import shoppee.com.payload.JwtAuthenticationResponse;
 import shoppee.com.payload.LoginRequest;
 import shoppee.com.repository.RoleRepository;
 import shoppee.com.security.JwtTokenProvider;
+import shoppee.com.security.UserPrincipal;
 import shoppee.com.service.AdminService;
 import shoppee.com.utils.AdminTokenResult;
 import shoppee.com.utils.LogicHandle;
@@ -88,7 +89,10 @@ public class AdminController {
 	
 	//@Secured("ROLE_ADMIN")
 	@PostMapping("add")
-	public ResponseEntity<?> addAdmin(@RequestBody(required = false) Admin objAdmin) {
+	public ResponseEntity<?> addAdmin(UserPrincipal userLogin, @RequestBody(required = false) Admin objAdmin) {
+		//if (userLogin.)
+		
+		
 		List<Admin> listAdmin = adminService.getAllAdmin();
 		boolean checkUsername = LogicHandle.functionCheckName(listAdmin, objAdmin);
 		if (checkUsername == false) {
