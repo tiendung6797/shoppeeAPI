@@ -13,7 +13,7 @@ public interface ProductBillRepository extends JpaRepository<ProductBill, Intege
 	@Query(value = "SELECT * FROM productofbill WHERE user_id = :user_id AND status = \"Đã thanh toán-Đã giao hàng\"", nativeQuery = true)
 	List<ProductBill> getProductByUserAndYesMoney(@Param("user_id") Integer user_id);
 	
-	@Query(value = "SELECT * FROM productofbill WHERE user_id = :user_id AND status = \"Đã thanh toán-Chưa giao hàng\" OR status = \"Chưa thanh toán-Chưa giao hàng\"", nativeQuery = true)
+	@Query(value = "SELECT * FROM productofbill WHERE user_id = :user_id AND status = \"Đã thanh toán-Chưa giao hàng\" OR user_id = :user_id AND status = \"Chưa thanh toán-Chưa giao hàng\"", nativeQuery = true)
 	List<ProductBill> getProductByUserAndNoMoney(@Param("user_id") Integer user_id);
 	
 	@Query(value = "SELECT * FROM productofbill WHERE user_id = :user_id AND status = \"Đã hủy\"", nativeQuery = true)
