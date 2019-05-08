@@ -387,10 +387,10 @@ public class ProductController {
 	
 	
 	/*
-	 * update product
+	 * add product 2
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
+	@RequestMapping(value = "/product/add/{storeId}/{proId}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateProduct(
 			@RequestParam("sizeType") String sizeType,
 			@PathVariable("proId") int proId,
