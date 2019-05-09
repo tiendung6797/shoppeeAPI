@@ -38,11 +38,11 @@ public class UserPrincipal implements UserDetails {
     	List<Role> roles = new ArrayList<>();
     	roles.add(admin.getRole());
         List<GrantedAuthority> authorities = roles.stream().map(role ->
-                new SimpleGrantedAuthority(role.getroleName())
+                new SimpleGrantedAuthority(role.getRole_name())
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
-        		admin.getId(),
+        		admin.getAdmin_id(),
       
         		admin.getUsername(),
 

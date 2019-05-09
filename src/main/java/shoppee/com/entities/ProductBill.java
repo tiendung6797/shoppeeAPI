@@ -22,6 +22,9 @@ public class ProductBill implements Serializable {
 	@Column(name = "pro_id")
 	private Integer pro_id;
 
+	@Column(name = "pro_name")
+	private String pro_name;
+
 	@Column(name = "quantity")
 	private Integer quantity;
 
@@ -44,10 +47,13 @@ public class ProductBill implements Serializable {
 	private Integer payment_id;
 
 	@Column(name = "cost")
-	private Float cost;
+	private double cost;
+
+	@Column(name = "sum_bill")
+	private double sum_bill;
 
 	@Column(name = "status")
-	private Integer status;
+	private String status;
 
 	public Integer getId() {
 		return id;
@@ -65,11 +71,19 @@ public class ProductBill implements Serializable {
 		this.pro_id = pro_id;
 	}
 
-	public Integer getquantity() {
+	public String getPro_name() {
+		return pro_name;
+	}
+
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
+	}
+
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setquantity(Integer quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
@@ -121,19 +135,27 @@ public class ProductBill implements Serializable {
 		this.payment_id = payment_id;
 	}
 
-	public Float getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(Float cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
-	public Integer getStatus() {
+	public double getSum_bill() {
+		return sum_bill;
+	}
+
+	public void setSum_bill(double sum_bill) {
+		this.sum_bill = sum_bill;
+	}
+
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -142,11 +164,13 @@ public class ProductBill implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductBill(Integer id, Integer pro_id, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Integer store_id, Integer payment_id, Float cost, Integer status) {
+	public ProductBill(Integer id, Integer pro_id, String pro_name, Integer quantity, String color, String size,
+			String bill_number, Integer user_id, Integer store_id, Integer payment_id, double cost, double sum_bill,
+			String status) {
 		super();
 		this.id = id;
 		this.pro_id = pro_id;
+		this.pro_name = pro_name;
 		this.quantity = quantity;
 		this.color = color;
 		this.size = size;
@@ -155,6 +179,7 @@ public class ProductBill implements Serializable {
 		this.store_id = store_id;
 		this.payment_id = payment_id;
 		this.cost = cost;
+		this.sum_bill = sum_bill;
 		this.status = status;
 	}
 

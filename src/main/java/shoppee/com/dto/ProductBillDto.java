@@ -14,8 +14,8 @@ public class ProductBillDto {
 	private Integer user_id;
 	private Store store;
 	private Integer payment_id;
-	private Float cost;
-	private Integer status;
+	private double cost;
+	private String status;
 
 	public Integer getId() {
 		return id;
@@ -89,19 +89,19 @@ public class ProductBillDto {
 		this.payment_id = payment_id;
 	}
 
-	public Float getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(Float cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -111,7 +111,7 @@ public class ProductBillDto {
 	}
 
 	public ProductBillDto(Integer id, Product product, Integer quantity, String color, String size, String bill_number,
-			Integer user_id, Store store, Integer payment_id, Float cost, Integer status) {
+			Integer user_id, Store store, Integer payment_id, double cost, String status) {
 		super();
 		this.id = id;
 		this.product = product;

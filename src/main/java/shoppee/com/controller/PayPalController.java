@@ -31,5 +31,4 @@ public class PayPalController {
 		return payPalClient.completePayment(request);
 	}
 	
-	// pro_id, user_id, bill_number, quantity, size, payment_id
 }

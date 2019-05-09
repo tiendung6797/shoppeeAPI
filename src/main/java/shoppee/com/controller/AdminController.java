@@ -94,10 +94,11 @@ public class AdminController {
 	}
 	
 	//@Secured("ROLE_ADMIN")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("add")
 	public ResponseEntity<?> addAdmin(Principal userLogin, @RequestBody(required = false) Admin objAdmin) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		if (ad.getRole().getroleId() != 1) {
+		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -109,8 +110,8 @@ public class AdminController {
 			return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
-		Admin admin = new Admin(0, objAdmin.getUsername(), objAdmin.getPassword(), objAdmin.getFullname(), objAdmin.getRole());
-		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+		String password = passwordEncoder.encode(objAdmin.getPassword());
+		Admin admin = new Admin(0, objAdmin.getUsername(), password, objAdmin.getFullname(), objAdmin.getRole());
 		
 //		Role adminRole = roleRepository.findByRoleName("MOD");
 //                /*.orElseThrow(() -> new AppException("User Role not set."));*/
@@ -124,7 +125,7 @@ public class AdminController {
 	@GetMapping("all")
 	public ResponseEntity<List<Admin>> getAll(Principal userLogin) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		if (ad.getRole().getroleId() != 1) {
+		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}

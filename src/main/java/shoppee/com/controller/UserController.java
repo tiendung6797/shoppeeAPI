@@ -1,5 +1,6 @@
 package shoppee.com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import shoppee.com.dto.UserDto;
 import shoppee.com.entities.User;
 import shoppee.com.service.UserService;
 import shoppee.com.service.impl.UserServiceImpl;
@@ -47,12 +49,17 @@ public class UserController {
 	}
 
 	@GetMapping("all")
-	public ResponseEntity<List<User>> getAll() {
+	public ResponseEntity<List<UserDto>> getAll() {
+		List<UserDto> listUserDto = new ArrayList<UserDto>();
 		List<User> listUser = userService.getAllUser();
 		if (listUser.size() > 0) {
-			return new ResponseEntity<List<User>>(listUser, HttpStatus.OK);
+			for(User objUser : listUser) {
+				listUserDto.add(new UserDto(objUser.getUser_id(), objUser.getEmail(), objUser.getFullname(), objUser.getAvatar(), objUser.getPhone(), 
+						objUser.getAddress(), objUser.getDate_create(), objUser.getEnable()));
+			}
+			return new ResponseEntity<List<UserDto>>(listUserDto, HttpStatus.OK);
 		}
-		ResponseEntity<List<User>> errorListUser = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		ResponseEntity<List<UserDto>> errorListUser = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return errorListUser;
 	}
 
@@ -90,13 +97,15 @@ public class UserController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")
-	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Integer id) {
+	public ResponseEntity<UserDto> getUserById(@PathVariable(value = "id") Integer id) {
 		if (userService.getOneById(id) == null) {
 			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản User!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			User objUser = userService.getOneById(id);
-			return new ResponseEntity<User>(objUser, HttpStatus.OK);
+			UserDto objUserDto = new UserDto(objUser.getUser_id(), objUser.getEmail(), objUser.getFullname(), objUser.getAvatar(), objUser.getPhone(), 
+					objUser.getAddress(), objUser.getDate_create(), objUser.getEnable());
+			return new ResponseEntity<UserDto>(objUserDto, HttpStatus.OK);
 		}
 	}
 

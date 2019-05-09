@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "admin")
 public class Admin implements Serializable {
@@ -21,46 +20,25 @@ public class Admin implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer admin_id;
+
+	@Column(name = "username")
 	private String username;
+
+	@Column(name = "password")
 	private String password;
 
+	@Column(name = "fullname")
 	private String fullname;
 
 	@ManyToOne
-	@JoinColumn(name="role_id")
+	@JoinColumn(name = "role_id")
 	private Role role;
 
-	public Admin() {
-		super();
-	}
-	
-	public Admin(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
-	}
-	
-	public Admin(String username, String password, Role role) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-	}
-
-	public Admin(Integer admin_id, String username, String password, String fullname, Role role) {
-		super();
-		this.admin_id = admin_id;
-		this.username = username;
-		this.password = password;
-		this.fullname = fullname;
-		this.role = role;
-	}
-
-	public Integer getId() {
+	public Integer getAdmin_id() {
 		return admin_id;
 	}
 
-	public void setId(Integer admin_id) {
+	public void setAdmin_id(Integer admin_id) {
 		this.admin_id = admin_id;
 	}
 
@@ -96,5 +74,18 @@ public class Admin implements Serializable {
 		this.role = role;
 	}
 
-	
+	public Admin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Admin(Integer admin_id, String username, String password, String fullname, Role role) {
+		super();
+		this.admin_id = admin_id;
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role = role;
+	}
+
 }
