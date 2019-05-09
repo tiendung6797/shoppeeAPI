@@ -30,10 +30,11 @@ public class Size {
 		super();
 	}
 
-	public Size(String size_name, int quantity) {
+	public Size(String size_name, int quantity, Product product) {
 		super();
 		this.size_name = size_name;
 		this.quantity = quantity;
+		this.product = product;
 	}
 
 	public Integer getSize_id() {

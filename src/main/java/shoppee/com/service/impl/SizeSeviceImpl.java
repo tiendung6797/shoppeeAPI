@@ -29,5 +29,19 @@ public class SizeSeviceImpl implements SizeService {
 		return false;
 	}
 
+	@Override
+	public boolean updateSize(int quantity, int size_id) {
+		int update = sizeRepository.update(quantity, size_id);
+		if(update > 0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<Size> getSizeByProId(int proId) {
+		return sizeRepository.getSizeByProId(proId);
+	}
+
 	
 }

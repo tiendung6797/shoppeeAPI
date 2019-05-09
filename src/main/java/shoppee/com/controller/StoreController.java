@@ -36,18 +36,6 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService1;
 	
-	/*@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping("login")
-	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
-		if(storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword()) == null){
-			TokenResult result = new TokenResult("False", "Incorrect username or password");
-			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
-		}else {
-			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword());
-			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
-		}
-	}*/
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("login")
 	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
