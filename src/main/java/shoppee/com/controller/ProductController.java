@@ -131,6 +131,7 @@ public class ProductController {
 	public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) {
 		Product product = productService.getProductById(id);
 		if (product != null) {
+			product.setCount_view(product.getCount_view() + 1); 
 			return new ResponseEntity<Product>(product, HttpStatus.OK);
 		}
 		else {
@@ -472,7 +473,7 @@ public class ProductController {
 	        .collect(Collectors.toList());
 		
 		
-		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
+		TokenResult result = new TokenResult("Thêm sản phẩm thành công!", "False");
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
@@ -569,7 +570,7 @@ public class ProductController {
 	/*
 	 * update count_view
 	 * */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/product/update/countView/{proId}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateCountView(@RequestParam("proId") int proId) {
 		
@@ -589,9 +590,9 @@ public class ProductController {
 	}
 	
 	
-	/*
+	
 	 * update count_selled
-	 * */
+	 * 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/product/update/countSelled/{proId}", method = RequestMethod.PUT) 
 	public ResponseEntity<Product> updateCountSelled(@RequestParam("proId") int proId) {
@@ -610,7 +611,7 @@ public class ProductController {
 		TokenResult result = new TokenResult("Update sản phẩm thành công!", "False");
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
-	
+	*/
 	
 	/*
 	 * delete product

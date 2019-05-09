@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.entities.Store;
+import shoppee.com.payload.LoginRequest;
 import shoppee.com.service.StoreService;
 import shoppee.com.service.impl.StoreServiceImpl;
 import shoppee.com.utils.LogicHandle;
@@ -33,14 +34,26 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService1;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	/*@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("login")
-	public ResponseEntity<Store> login(@RequestBody Store objStore){
-		if(storeService1.getStoreByEmailAndPassword(objStore.getEmail(), objStore.getPassword()) == null){
+	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
+		if(storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword()) == null){
 			TokenResult result = new TokenResult("False", "Incorrect username or password");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}else {
-			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getEmail(), objStore.getPassword());
+			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword());
+			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
+		}
+	}*/
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping("login")
+	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
+		if(storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword()) == null){
+			TokenResult result = new TokenResult("False", "Incorrect username or password");
+			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+		}else {
+			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword());
 			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
 		}
 	}

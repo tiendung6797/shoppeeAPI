@@ -141,7 +141,13 @@ public class AdminController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")
-	public ResponseEntity<Admin> getAdminById(@PathVariable(value = "id") Integer id) {
+	public ResponseEntity<Admin> getAdminById(Principal userLogin, @PathVariable(value = "id") Integer id) {
+		Admin ad = adminRepository.findByUsername(userLogin.getName());
+		if (ad.getRole().getroleId() != 1) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 		if (adminService.getAdminById(id) == null) {
 			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
@@ -153,7 +159,13 @@ public class AdminController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("update/{id}")
-	public ResponseEntity<Admin> updateAdmin(@RequestBody Admin objAdmin, @PathVariable(value = "id") Integer id) {
+	public ResponseEntity<Admin> updateAdmin(Principal userLogin, @RequestBody Admin objAdmin, @PathVariable(value = "id") Integer id) {
+		Admin ad = adminRepository.findByUsername(userLogin.getName());
+		if (ad.getRole().getroleId() != 1) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 		Admin oldAdmin = adminService.getAdminById(id);
 		if (oldAdmin == null) {
 			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
@@ -170,7 +182,13 @@ public class AdminController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<Admin> deleteAdmin(@PathVariable(value = "id") Integer id) {
+	public ResponseEntity<Admin> deleteAdmin(Principal userLogin, @PathVariable(value = "id") Integer id) {
+		Admin ad = adminRepository.findByUsername(userLogin.getName());
+		if (ad.getRole().getroleId() != 1) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 		Admin objAdmin = adminService.getAdminById(id);
 		if (objAdmin == null) {
 			TokenResult error = new TokenResult("False", "Không tìm thấy tài khoản admin!!");
