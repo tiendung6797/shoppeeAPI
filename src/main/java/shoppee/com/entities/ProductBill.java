@@ -49,6 +49,9 @@ public class ProductBill implements Serializable {
 	@Column(name = "cost")
 	private double cost;
 
+	@Column(name = "sum_bill")
+	private double sum_bill;
+
 	@Column(name = "status")
 	private String status;
 
@@ -140,6 +143,14 @@ public class ProductBill implements Serializable {
 		this.cost = cost;
 	}
 
+	public double getSum_bill() {
+		return sum_bill;
+	}
+
+	public void setSum_bill(double sum_bill) {
+		this.sum_bill = sum_bill;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -154,7 +165,8 @@ public class ProductBill implements Serializable {
 	}
 
 	public ProductBill(Integer id, Integer pro_id, String pro_name, Integer quantity, String color, String size,
-			String bill_number, Integer user_id, Integer store_id, Integer payment_id, double cost, String status) {
+			String bill_number, Integer user_id, Integer store_id, Integer payment_id, double cost, double sum_bill,
+			String status) {
 		super();
 		this.id = id;
 		this.pro_id = pro_id;
@@ -167,6 +179,7 @@ public class ProductBill implements Serializable {
 		this.store_id = store_id;
 		this.payment_id = payment_id;
 		this.cost = cost;
+		this.sum_bill = sum_bill;
 		this.status = status;
 	}
 

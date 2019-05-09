@@ -1,5 +1,6 @@
 package shoppee.com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import shoppee.com.dto.StoreDto;
 import shoppee.com.entities.Store;
 import shoppee.com.service.StoreService;
 import shoppee.com.service.impl.StoreServiceImpl;
@@ -47,13 +49,18 @@ public class StoreController {
 
 	// list store
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<Store>> getAllStore() {
+	public ResponseEntity<List<StoreDto>> getAllStore() {
+		List<StoreDto> listStoreDto = new ArrayList<StoreDto>();
 		List<Store> listStore = storeService.findAllStore();
-		if (listStore.isEmpty()) {
-			ResponseEntity<List<Store>> errorListStore = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			return errorListStore;
+		if (listStore.size() > 0) {
+			for(Store objStore : listStore) {
+				listStoreDto.add(new StoreDto(objStore.getStore_id(), objStore.getEmail(), objStore.getStoreowner_name(), objStore.getStore_name(), 
+						objStore.getAddress(), objStore.getPhone(), objStore.getBank_name(), objStore.getBank_id()));
+			}
+			return new ResponseEntity<List<StoreDto>>(listStoreDto, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(listStore, HttpStatus.OK);
+		ResponseEntity<List<StoreDto>> errorListStore = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return errorListStore;
 	}
 
 	// Register a new store
@@ -100,13 +107,15 @@ public class StoreController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("{id}")
-	public ResponseEntity<Store> getStoreById(@PathVariable(value = "id") Integer id) {
+	public ResponseEntity<StoreDto> getStoreById(@PathVariable(value = "id") Integer id) {
 		if (storeService.getOneById(id) == null) {
 			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		} else {
 			Store objStore = storeService.getOneById(id);
-			return new ResponseEntity<Store>(objStore, HttpStatus.OK);
+			StoreDto objStoreDto = new StoreDto(objStore.getStore_id(), objStore.getEmail(), objStore.getStoreowner_name(), objStore.getStore_name(), 
+					objStore.getAddress(), objStore.getPhone(), objStore.getBank_name(), objStore.getBank_id());
+			return new ResponseEntity<StoreDto>(objStoreDto, HttpStatus.OK);
 		}
 	}
 
