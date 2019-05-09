@@ -144,7 +144,7 @@ public class AdminController {
 	@GetMapping("{id}")
 	public ResponseEntity<Admin> getAdminById(Principal userLogin, @PathVariable(value = "id") Integer id) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		if (ad.getRole().getroleId() != 1) {
+		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -162,7 +162,7 @@ public class AdminController {
 	@PutMapping("update/{id}")
 	public ResponseEntity<Admin> updateAdmin(Principal userLogin, @RequestBody Admin objAdmin, @PathVariable(value = "id") Integer id) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		if (ad.getRole().getroleId() != 1) {
+		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -185,7 +185,7 @@ public class AdminController {
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Admin> deleteAdmin(Principal userLogin, @PathVariable(value = "id") Integer id) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		if (ad.getRole().getroleId() != 1) {
+		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}

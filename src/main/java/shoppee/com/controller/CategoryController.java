@@ -59,7 +59,7 @@ public class CategoryController {
 	@PostMapping("add")
 	public ResponseEntity<Category> addCategory(Principal userLogin, @RequestBody(required = false) Category objCategory) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		int role = ad.getRole().getroleId();
+		int role = ad.getRole().getRole_id();
 		if ( role != 1 && role != 2) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
@@ -93,7 +93,7 @@ public class CategoryController {
 	@PutMapping("update/{id}")
 	public ResponseEntity<Category> updateCategory(Principal userLogin, @RequestBody Category objCategory, @PathVariable(value = "id") Integer id){
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		int role = ad.getRole().getroleId();
+		int role = ad.getRole().getRole_id();
 		if ( role != 1 && role != 2) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
@@ -116,7 +116,7 @@ public class CategoryController {
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Category> deleteCategory(Principal userLogin, @PathVariable(value = "id") Integer id){
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
-		int role = ad.getRole().getroleId();
+		int role = ad.getRole().getRole_id();
 		if ( role != 1 && role != 2) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
