@@ -85,10 +85,10 @@ public class ProductBillController {
 					}
 				}
 			}
-			return new ResponseEntity<>(HttpStatus.OK);	
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 		}
 		TokenResult error = new TokenResult("False", "");
-		return new ResponseEntity(error, HttpStatus.NO_CONTENT);
+		return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("all")
