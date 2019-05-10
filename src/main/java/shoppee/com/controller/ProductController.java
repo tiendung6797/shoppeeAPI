@@ -31,7 +31,6 @@ import shoppee.com.entities.Store;
 import shoppee.com.payload.ProductRequest;
 import shoppee.com.payload.UploadFileResponse;
 import shoppee.com.repository.StoreRepository;
-import shoppee.com.security.UserPrincipal;
 import shoppee.com.service.FileStorageService;
 import shoppee.com.service.impl.CategoryServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
@@ -359,8 +358,13 @@ public class ProductController {
 	 * add product
 	 * */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/product/add",method=RequestMethod.POST)
-	public ResponseEntity<Product> addProduct(@RequestBody Product product){
+	@RequestMapping(value="/admin/product/add",method=RequestMethod.POST)
+	public ResponseEntity<Product> addProduct(Principal userLogin, @RequestBody Product product){
+		Store store = storeRepository.findByUserName(userLogin.getName());
+		if (store == null) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		productService.addProduct(product);
 		return new ResponseEntity("Thêm thành công!", HttpStatus.CREATED);
@@ -491,10 +495,16 @@ public class ProductController {
 	 * add product 2
 	 * */
 	
-	@RequestMapping(value = "/product/add/{storeId}/{proId}", method = RequestMethod.PUT) 
-	public ResponseEntity<Product> addProduct(@RequestBody ProductRequest productRequest, 
+	@RequestMapping(value = "/admin/product/add/{storeId}/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> addProduct(Principal userLogin, @RequestBody ProductRequest productRequest, 
 			@PathVariable("proId") int proId,
 			@PathVariable("storeId") int storeId) {
+		// check token
+		Store store = storeRepository.findByUserName(userLogin.getName());
+		if (store == null) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
 		Product oldProduct = productService.getProductById(proId);
@@ -557,10 +567,17 @@ public class ProductController {
 	 * update product
 	 * */
 	
-	@RequestMapping(value = "/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
-	public ResponseEntity<Product> updateProduct(@RequestBody ProductRequest productRequest, 
+	@RequestMapping(value = "/admin/product/update/{storeId}/{proId}", method = RequestMethod.PUT) 
+	public ResponseEntity<Product> updateProduct(Principal userLogin, @RequestBody ProductRequest productRequest, 
 			@PathVariable("proId") int proId,
 			@PathVariable("storeId") int storeId) {
+		
+		// check token
+		Store store = storeRepository.findByUserName(userLogin.getName());
+		if (store == null) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		// kiểm tra có tồn tại product có id trong database hay chưa
 		Product oldProduct = productService.getProductById(proId);
@@ -623,8 +640,15 @@ public class ProductController {
 	 * delete product
 	 * */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/product/delete/{proId}", method = RequestMethod.DELETE) 
-	public ResponseEntity<Product> deleteProduct(@PathVariable(value = "proId") Integer proId) {
+	@RequestMapping(value = "/admin/product/delete/{proId}", method = RequestMethod.DELETE) 
+	public ResponseEntity<Product> deleteProduct(Principal userLogin, @PathVariable(value = "proId") Integer proId) {
+		// check token
+		Store store = storeRepository.findByUserName(userLogin.getName());
+		if (store == null) {
+			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 		Product objProduct = productService.getProductById(proId);
 		if (objProduct == null) {
 			TokenResult result = new TokenResult("False", "Không tìm thấy!");

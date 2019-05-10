@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +49,11 @@ public class StoreController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	
+	/*@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("login")
 	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
 		if(storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword()) == null){
@@ -58,9 +63,9 @@ public class StoreController {
 			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword());
 			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
 		}
-	}
+	}*/
 	
-	/*@PostMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> authenticateAdmin(@RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -73,7 +78,7 @@ public class StoreController {
         
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-	}*/
+	}
 
 	// list store
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -102,6 +107,8 @@ public class StoreController {
 		boolean checkStorePhone = LogicHandle.functionCheckStorePhone(listStore, store);
 
 		if (checkStoreEmail == true && checkStoreName == true) {
+			String password = passwordEncoder.encode(store.getPassword());
+			store.setPassword(password);
 			Store newStore = storeService.saveStore(store);
 			StoreTokenResult result = new StoreTokenResult( "False", "Đăng kí tài khoản thành công!", newStore);
 			return new ResponseEntity(result, HttpStatus.CREATED);

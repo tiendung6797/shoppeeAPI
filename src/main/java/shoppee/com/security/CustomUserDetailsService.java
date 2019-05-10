@@ -32,17 +32,25 @@ public class CustomUserDetailsService implements UserDetailsService  {
         Admin user = adminRepository.findByUsername(username);
                 /*.orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username: " + username));*/
-      
+        if (user == null) {
+        	Store user2 = storeRepository.findByUserName(username);
+        	return UserPrincipal.create(user2);
+        }
         return UserPrincipal.create(user);
     }
 
     // This method is used by JWTAuthenticationFilter
     @Transactional
     public UserDetails loadUserById(int id) {
-        Admin user = adminRepository.findById(id).orElseThrow(
+        Admin user = adminRepository.findById(id)/*.orElseThrow(
             () -> new UsernameNotFoundException("User not found with id : " + id)
-        );
+        )*/;
         
+        if (user == null) {
+        	Store user2 = storeRepository.findById(id);
+        	return UserPrincipal.create(user2);
+        }
+
         return UserPrincipal.create(user);
     }
 }

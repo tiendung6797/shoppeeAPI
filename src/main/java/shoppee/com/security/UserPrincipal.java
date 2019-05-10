@@ -58,6 +58,21 @@ public class UserPrincipal implements UserDetails {
         );
     }
     
+    public static UserPrincipal create(Store store) {
+    	/*List<Role> roles = new ArrayList<>();
+    	roles.add(admin.getRole());
+        List<GrantedAuthority> authorities = roles.stream().map(role ->
+                new SimpleGrantedAuthority(role.getRole_name())
+        ).collect(Collectors.toList());*/
+
+        return new UserPrincipal(
+        		store.getStore_id(),
+      
+        		store.getEmail(),
+
+        		store.getPassword()
+        );
+    }
 
     public int getId() {
         return id;
