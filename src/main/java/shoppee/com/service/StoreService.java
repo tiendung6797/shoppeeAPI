@@ -13,7 +13,7 @@ public interface StoreService {
 	
 	public List<Store> listStore();
 	
-	public Store getStoreByName(String name);
+	public Store getStoreByEmail(String name);
 	
 	public Store getStoreByEmailAndPassword(String email, String password);
 	

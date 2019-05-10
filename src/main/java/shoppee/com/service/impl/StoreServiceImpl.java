@@ -46,9 +46,8 @@ public class StoreServiceImpl implements StoreService{
 	}
 
 	@Override
-	public Store getStoreByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public Store getStoreByEmail(String email) {
+		return storeRepository.getStoreByEmail(email);
 	}
 
 	@Override

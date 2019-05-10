@@ -3,9 +3,19 @@ package shoppee.com.payload;
 public class JwtAuthenticationResponse {
 	private String accessToken;
     private String tokenType = "Bearer";
+    private int id;
 
-    public JwtAuthenticationResponse(String accessToken) {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public JwtAuthenticationResponse(String accessToken, int id) {
         this.accessToken = accessToken;
+        this.id = id;
     }
 
     public String getAccessToken() {

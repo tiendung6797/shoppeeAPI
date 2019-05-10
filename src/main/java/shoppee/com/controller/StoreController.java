@@ -77,7 +77,8 @@ public class StoreController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        Store store = storeService.getStoreByEmail(loginRequest.getUsername());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, store.getStore_id()));
 	}
 
 	// list store

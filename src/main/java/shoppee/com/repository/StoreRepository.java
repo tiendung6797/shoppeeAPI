@@ -19,4 +19,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	
 	@Query(value = "SELECT * FROM store AS s WHERE s.store_id =:id", nativeQuery = true)
 	Store findById(@Param("id") int id);
+
+	@Query(value = "SELECT * FROM store AS s WHERE s.email = ?1", nativeQuery = true)
+	Store getStoreByEmail(String email);
 }

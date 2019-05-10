@@ -90,7 +90,8 @@ public class AdminController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        Admin admin = adminRepository.findByUsername(loginRequest.getUsername());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, admin.getAdmin_id()));
 	}
 	
 	//@Secured("ROLE_ADMIN")
