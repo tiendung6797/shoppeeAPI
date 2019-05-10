@@ -99,7 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                        .permitAll()
 	                    .antMatchers("/admin/login","/category/parent","/category/byparent/{parent_id}",
 	                    		"/category/{id}","/downloadFile/{fileId}","/paypal/**", "/productbill/**",
-	                    		"/product/**", "/uploadMultipleFiles/{proId}","/uploadFile", "/review/**", "/store/**", "/user/**")
+	                    		"/product/**", "admin/product/**", "/uploadMultipleFiles/{proId}","/uploadFile", "/review/**", 
+	                    		"/store/**", "/user/**")
 	                        .permitAll()
 	                    .anyRequest()
 	                        .authenticated();

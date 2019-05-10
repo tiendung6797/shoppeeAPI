@@ -1,5 +1,7 @@
 package shoppee.com.security;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,13 +10,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shoppee.com.entities.Admin;
+import shoppee.com.entities.Store;
 import shoppee.com.repository.AdminRepository;
+import shoppee.com.repository.StoreRepository;
+import shoppee.com.repository.UserRepository;
 
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService  {
 	@Autowired
 	AdminRepository adminRepository;
+	
+	@Autowired
+	StoreRepository storeRepository;
 	
 	@Override
     @Transactional
@@ -24,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService  {
         Admin user = adminRepository.findByUsername(username);
                 /*.orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username: " + username));*/
-
+      
         return UserPrincipal.create(user);
     }
 
@@ -34,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService  {
         Admin user = adminRepository.findById(id).orElseThrow(
             () -> new UsernameNotFoundException("User not found with id : " + id)
         );
-
+        
         return UserPrincipal.create(user);
     }
 }

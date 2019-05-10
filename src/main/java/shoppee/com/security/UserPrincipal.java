@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import shoppee.com.entities.Admin;
 import shoppee.com.entities.Role;
+import shoppee.com.entities.Store;
 
 public class UserPrincipal implements UserDetails {
 
@@ -33,6 +34,12 @@ public class UserPrincipal implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
+    
+    public UserPrincipal(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
 
     public static UserPrincipal create(Admin admin) {
     	List<Role> roles = new ArrayList<>();
@@ -50,6 +57,7 @@ public class UserPrincipal implements UserDetails {
                 authorities
         );
     }
+    
 
     public int getId() {
         return id;

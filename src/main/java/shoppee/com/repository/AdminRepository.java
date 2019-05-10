@@ -13,6 +13,8 @@ import shoppee.com.entities.Role;
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
 	
 	//Optional<Admin> findByUsername(String username);
+	/*@Query(value = "SELECT * FROM admin AS ad WHERE ad.admin_id =:id", nativeQuery = true)
+	Admin findById(@Param("id") int id);*/
 	
 	@Query(value = "SELECT * FROM admin AS ad WHERE ad.username =:username", nativeQuery = true)
 	Admin findByUsername(@Param("username") String username);

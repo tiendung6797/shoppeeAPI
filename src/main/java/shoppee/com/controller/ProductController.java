@@ -1,5 +1,6 @@
 package shoppee.com.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +27,11 @@ import shoppee.com.entities.Category;
 import shoppee.com.entities.File;
 import shoppee.com.entities.Product;
 import shoppee.com.entities.Size;
+import shoppee.com.entities.Store;
 import shoppee.com.payload.ProductRequest;
 import shoppee.com.payload.UploadFileResponse;
+import shoppee.com.repository.StoreRepository;
+import shoppee.com.security.UserPrincipal;
 import shoppee.com.service.FileStorageService;
 import shoppee.com.service.impl.CategoryServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
@@ -48,7 +52,10 @@ public class ProductController {
 	SizeSeviceImpl sizeSeviceImpl;
 	
 	@Autowired
-    private FileStorageService fileStorageService;
+    FileStorageService fileStorageService;
+	
+	@Autowired
+	StoreRepository storeRepository;
 	
 	/*
 	 * get all product for admin

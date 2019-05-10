@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.StoreDto;
 import shoppee.com.entities.Store;
+import shoppee.com.payload.JwtAuthenticationResponse;
 import shoppee.com.payload.LoginRequest;
+import shoppee.com.security.JwtTokenProvider;
 import shoppee.com.service.StoreService;
 import shoppee.com.service.impl.StoreServiceImpl;
 import shoppee.com.utils.LogicHandle;
@@ -36,17 +42,38 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService1;
 	
+	@Autowired
+    AuthenticationManager authenticationManager;
+	
+	@Autowired
+	JwtTokenProvider tokenProvider;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("login")
 	public ResponseEntity<Store> login(@RequestBody LoginRequest objStore){
 		if(storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword()) == null){
-			TokenResult result = new TokenResult("False", "Incorrect username or password");
+			TokenResult result = new TokenResult("False", "Sai username hoặc password");
 			return new ResponseEntity(result, HttpStatus.NOT_FOUND);
 		}else {
 			Store objStoreLogin = storeService1.getStoreByEmailAndPassword(objStore.getUsername(), objStore.getPassword());
 			return new ResponseEntity<Store>(objStoreLogin, HttpStatus.OK);
 		}
 	}
+	
+	/*@PostMapping("/login")
+	public ResponseEntity<?> authenticateAdmin(@RequestBody LoginRequest loginRequest) {
+		Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                		loginRequest.getUsername(),
+                		loginRequest.getPassword()
+                )
+        );
+		
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        String jwt = tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+	}*/
 
 	// list store
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
