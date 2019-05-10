@@ -101,4 +101,16 @@ public class ProductServiceImpl implements ProductService {
 		return (List<Product>) productRepository.getStoreProductByCatId(pageable, catId);
 	}
 
+	@Override
+	public int updateCountView(Integer pro_id) {
+		// TODO Auto-generated method stub
+		return productRepository.updateCountView(pro_id);
+	}
+
+	@Override
+	public int updateCountSelled(Integer pro_id) {
+		// TODO Auto-generated method stub
+		return productRepository.updateCountSelled(pro_id);
+	}
+
 }

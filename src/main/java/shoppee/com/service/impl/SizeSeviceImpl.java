@@ -43,5 +43,11 @@ public class SizeSeviceImpl implements SizeService {
 		return sizeRepository.getSizeByProId(proId);
 	}
 
+	@Override
+	public int updateQuantity(Integer pro_id, String size_name) {
+		// TODO Auto-generated method stub
+		return sizeRepository.updateQuantity(pro_id, size_name);
+	}
+
 	
 }

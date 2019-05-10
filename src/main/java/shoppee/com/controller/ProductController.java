@@ -138,7 +138,7 @@ public class ProductController {
 	public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) {
 		Product product = productService.getProductById(id);
 		if (product != null) {
-			product.setCount_view(product.getCount_view() + 1); 
+			productService.updateCountView(id);
 			return new ResponseEntity<Product>(product, HttpStatus.OK);
 		}
 		else {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import shoppee.com.entities.User;
 import shoppee.com.service.impl.PaymentServiceImpl;
 import shoppee.com.service.impl.ProductBillServiceImpl;
 import shoppee.com.service.impl.ProductServiceImpl;
+import shoppee.com.service.impl.SizeSeviceImpl;
 import shoppee.com.service.impl.StoreServiceImpl;
 import shoppee.com.service.impl.UserServiceImpl;
 import shoppee.com.utils.TokenResult;
@@ -37,19 +39,22 @@ import shoppee.com.utils.TokenResult;
 public class ProductBillController {
 	
 	@Autowired
-	ProductBillServiceImpl productBillService;
+	private ProductBillServiceImpl productBillService;
 	
 	@Autowired
-	ProductServiceImpl productService;
+	private ProductServiceImpl productService;
 	
 	@Autowired
-	StoreServiceImpl storeService;
+	private StoreServiceImpl storeService;
 	
 	@Autowired
 	private UserServiceImpl userService;
 	
 	@Autowired
 	private PaymentServiceImpl paymentService;
+	
+	@Autowired
+	private SizeSeviceImpl sizeSevice;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("buy")
@@ -59,28 +64,40 @@ public class ProductBillController {
 
 		JSONObject JsonObj  = new JSONObject(JSON_DATA);
 		JSONArray listProductBill = JsonObj.getJSONArray("bill");
+		double sum_bill = 0;
 		if(listProductBill.length() > 0) {
 			for(int i = 0; i < listProductBill.length(); i++) {
 				final JSONObject objProductBill = listProductBill.getJSONObject(i);
 				Product objProduct = productService.getProductById(objProductBill.getInt("pro_id"));
 				if(objProduct.getSale_price() == 0) {
+					sum_bill += objProduct.getRegular_price()*objProductBill.getInt("quantity");
+				}else {
+					sum_bill += objProduct.getSale_price()*objProductBill.getInt("quantity");
+				}
+			}
+			for(int i = 0; i < listProductBill.length(); i++) {
+				final JSONObject objProductBill = listProductBill.getJSONObject(i);
+				Product objProduct = productService.getProductById(objProductBill.getInt("pro_id"));
+				productService.updateCountSelled(objProductBill.getInt("pro_id"));
+				sizeSevice.updateQuantity(objProductBill.getInt("pro_id"), objProductBill.getString("size"));
+				if(objProduct.getSale_price() == 0) {
 					if(objProductBill.getInt("payment_id") == 1) {
 						ProductBill productBill = new ProductBill(0, objProductBill.getInt("pro_id"), objProduct.getPro_name(), objProductBill.getInt("quantity"), objProduct.getColor(), objProductBill.getString("size"), objProductBill.getString("bill_number"), 
-								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"),objProduct.getRegular_price()*objProductBill.getInt("quantity"), objProductBill.getDouble("sum_bill"), "Chưa thanh toán-Chưa giao hàng");
+								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"),objProduct.getRegular_price()*objProductBill.getInt("quantity"), sum_bill, "Chưa thanh toán-Chưa giao hàng");
 						productBillService.addProductBill(productBill);
 					}else {
 						ProductBill productBill = new ProductBill(0, objProductBill.getInt("pro_id"), objProduct.getPro_name(), objProductBill.getInt("quantity"), objProduct.getColor(), objProductBill.getString("size"), objProductBill.getString("bill_number"), 
-								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getRegular_price()*objProductBill.getInt("quantity"), objProductBill.getDouble("sum_bill"), "Đã thanh toán-Chưa giao hàng");
+								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getRegular_price()*objProductBill.getInt("quantity"), sum_bill, "Đã thanh toán-Chưa giao hàng");
 						productBillService.addProductBill(productBill);
 					}
 				}else {
 					if(objProductBill.getInt("payment_id") == 1) {
 						ProductBill productBill = new ProductBill(0, objProductBill.getInt("pro_id"), objProduct.getPro_name(), objProductBill.getInt("quantity"), objProduct.getColor(), objProductBill.getString("size"), objProductBill.getString("bill_number"),
-								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getSale_price()*objProductBill.getInt("quantity"), objProductBill.getDouble("sum_bill"), "Chưa thanh toán-Chưa giao hàng");
+								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getSale_price()*objProductBill.getInt("quantity"), sum_bill, "Chưa thanh toán-Chưa giao hàng");
 						productBillService.addProductBill(productBill);
 					}else {
 						ProductBill productBill = new ProductBill(0, objProductBill.getInt("pro_id"), objProduct.getPro_name(), objProductBill.getInt("quantity"), objProduct.getColor(), objProductBill.getString("size"), objProductBill.getString("bill_number"),
-								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getSale_price()*objProductBill.getInt("quantity"), objProductBill.getDouble("sum_bill"), "Đã thanh toán-Chưa giao hàng");
+								objProductBill.getInt("user_id"), objProduct.getStore_id(), objProductBill.getInt("payment_id"), objProduct.getSale_price()*objProductBill.getInt("quantity"), sum_bill, "Đã thanh toán-Chưa giao hàng");
 						productBillService.addProductBill(productBill);
 					}
 				}
@@ -169,6 +186,16 @@ public class ProductBillController {
 		}
 	}
 	
+	@PutMapping("cancel/{bill_number}")
+	public void updateBillCancel(@PathVariable(value = "bill_number") String bill_number) {
+		productBillService.updateBillCancel(bill_number);
+	}
+	
+	@PutMapping("success/{bill_number}")
+	public void updateBillSuccess(@PathVariable(value = "bill_number") String bill_number) {
+		productBillService.updateBillSuccess(bill_number);
+	}
+	
 	@GetMapping("byBill")
 	public ResponseEntity<List<BillDto>> getByBill(){
 		List<BillDto> listByBill = new ArrayList<BillDto>();
@@ -184,17 +211,5 @@ public class ProductBillController {
 			return new ResponseEntity<List<BillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	/*@GetMapping("byStore")
-	public ResponseEntity<List<BillDto>> getByStore(){
-		List<BillDto> listByBill = new ArrayList<BillDto>();
-		List<ProductBill> listProductBill = productBillService.getBill();
-		for(ProductBill objProductBill : listProductBill) {
-			User objUser = userService.getOneById(objProductBill.getUser_id());
-			Payment objPayment = paymentService.getPaymentById(objProductBill.getPayment_id());
-			listByBill.add(new BillDto(objProductBill.getBill_number(), objUser.getFullname(), objUser.getAddress(), sum_cost, objPayment.getPayment_name(), objProductBill.getStatus()));
-		}
-		
-	}*/
 	
 }

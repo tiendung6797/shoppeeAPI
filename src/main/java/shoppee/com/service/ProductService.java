@@ -13,6 +13,9 @@ public interface ProductService {
 	Product getLatestProductOfStore(Integer storeId);
 	void deleteProductById(Integer id);
 	
+	int updateCountView(Integer pro_id);
+	int updateCountSelled(Integer pro_id);
+	
 	List<Product> getAllProductAdmin();
 	List<Product> getAllProduct();
 	
@@ -30,6 +33,5 @@ public interface ProductService {
 	List<Product> getStoreProductPagination(Pageable pageable, Integer storeId);
 	
 	List<Product> getProductByCatId(Pageable pageable, Integer catId);
-	
 	
 }

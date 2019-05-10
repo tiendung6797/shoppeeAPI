@@ -9,4 +9,5 @@ public interface SizeService {
 	List<Size> getSizeByProId(int proId);
 	boolean addSize(Size objSize);
 	boolean updateSize(int quantity, int size_id);
+	int updateQuantity(Integer pro_id, String size_name);
 }

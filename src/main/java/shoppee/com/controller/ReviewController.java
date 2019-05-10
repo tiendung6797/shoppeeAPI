@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import shoppee.com.dto.ReviewDto;
 import shoppee.com.entities.Product;
 import shoppee.com.entities.Review;
 import shoppee.com.entities.User;
+import shoppee.com.payload.ReviewRequest;
 import shoppee.com.service.impl.ProductServiceImpl;
 import shoppee.com.service.impl.ReviewServiceImpl;
 import shoppee.com.service.impl.UserServiceImpl;
@@ -99,13 +101,10 @@ public class ReviewController {
 	}
 	
 	@PostMapping("add")
-	public ResponseEntity<Review> addReview(@RequestParam(name = "user_id", required = false) Integer user_id,
-		      @RequestParam(name = "pro_id", required = false) Integer pro_id, 	
-		      @RequestParam(name = "star_number", required = false) Integer star_number,
-		      @RequestParam(name = "detail", required = false) String detail) {
-		User objUser = userService.getOneById(user_id);
-		Product objProduct = productService.getProductById(pro_id);
-		Review objReview = new Review(0, objUser, objProduct, star_number, detail, 0);
+	public ResponseEntity<Review> addReview(@RequestBody ReviewRequest reviewRequest) {
+		User objUser = userService.getOneById(reviewRequest.getUser_id());
+		Product objProduct = productService.getProductById(reviewRequest.getPro_id());
+		Review objReview = new Review(0, objUser, objProduct, reviewRequest.getStar_number(), reviewRequest.getDetail(), 0);
 		
 		Review review = reviewService.addReview(objReview);
 		return new ResponseEntity<Review>(review, HttpStatus.CREATED);

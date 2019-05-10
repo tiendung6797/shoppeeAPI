@@ -8,13 +8,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import shoppee.com.entities.Product;
 
+@Transactional
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-	
-	
 	
 	@Query(value ="SELECT * FROM product p WHERE p.active = 1", nativeQuery=true)
 	List<Product> getAllProductPublic();
@@ -55,9 +55,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query(value ="SELECT e FROM Product e WHERE e.cat_id = :catId AND e.active = 1")
 	List<Product> getStoreProductByCatId(Pageable pageable, @Param("catId") Integer catId);
 
-	/*@Modifying 
-	@Query(value ="INSERT INTO product(pro_name, store_id, cat_id) VALUES(?1, ?2, ?3)" , nativeQuery=true)
-	void addProduct(String pro_name, int store_id, int cat_id);*/
+	@Modifying
+	@Query(value = "UPDATE Product SET count_view = count_view + 1 WHERE pro_id = :pro_id")
+	int updateCountView(@Param("pro_id") Integer pro_id);
+	
+	@Modifying
+	@Query(value = "UPDATE Product SET count_selled = count_selled + 1 WHERE pro_id = :pro_id")
+	int updateCountSelled(@Param("pro_id") Integer pro_id);
 	
 	
 }

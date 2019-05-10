@@ -20,4 +20,9 @@ public interface ProductBillService {
 	
 	List<ProductBill> getBill();
 	
+	void updateBillCancel(String bill_number);
+	
+	void updateBillSuccess(String bill_number);
+	
+	
 }

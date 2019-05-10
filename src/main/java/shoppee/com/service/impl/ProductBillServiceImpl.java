@@ -59,5 +59,17 @@ public class ProductBillServiceImpl implements ProductBillService{
 		return (List<ProductBill>) productBillRepository.getBill();
 	}
 
+	@Override
+	public void updateBillCancel(String bill_number) {
+		// TODO Auto-generated method stub
+		productBillRepository.updateBillCancel(bill_number);
+	}
+
+	@Override
+	public void updateBillSuccess(String bill_number) {
+		// TODO Auto-generated method stub
+		productBillRepository.updateBillSuccess(bill_number);
+	}
+
 
 }
