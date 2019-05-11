@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import shoppee.com.dto.Dto;
 import shoppee.com.entities.ProductBill;
 
 @Transactional
@@ -38,5 +39,8 @@ public interface ProductBillRepository extends JpaRepository<ProductBill, Intege
 	@Modifying
 	@Query(value = "UPDATE ProductBill SET status = 'Đã thanh toán-Đã giao hàng' WHERE bill_number = :bill_number")
 	void  updateBillSuccess(@Param("bill_number") String bill_number);
+	
+	@Query(value = "SELECT new shoppee.com.dto.Dto(bill_number, SUM(cost) AS sum_bill) FROM ProductBill GROUP BY store_id")
+	List<Dto>  getByStore();
 	
 }

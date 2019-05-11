@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shoppee.com.dto.Dto;
 import shoppee.com.dto.ProductBillDto;
 import shoppee.com.entities.ProductBill;
 import shoppee.com.repository.ProductBillRepository;
@@ -69,6 +70,12 @@ public class ProductBillServiceImpl implements ProductBillService{
 	public void updateBillSuccess(String bill_number) {
 		// TODO Auto-generated method stub
 		productBillRepository.updateBillSuccess(bill_number);
+	}
+
+	@Override
+	public List<Dto> getByStore() {
+		// TODO Auto-generated method stub
+		return (List<Dto>) productBillRepository.getByStore();
 	}
 
 

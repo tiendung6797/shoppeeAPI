@@ -2,35 +2,35 @@ package shoppee.com.dto;
 
 public class BillDto {
 
-	private String bill_number;
-	private String user_name;
-	private String user_address;
+	private String store_name;
+	private String store_address;
+	private String store_phone;
 	private double sum_cost;
-	private String payment;
-	private String status;
+	private String bank_name;
+	private String bank_id;
 
-	public String getBill_number() {
-		return bill_number;
+	public String getStore_name() {
+		return store_name;
 	}
 
-	public void setBill_number(String bill_number) {
-		this.bill_number = bill_number;
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getStore_address() {
+		return store_address;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setStore_address(String store_address) {
+		this.store_address = store_address;
 	}
 
-	public String getUser_address() {
-		return user_address;
+	public String getStore_phone() {
+		return store_phone;
 	}
 
-	public void setUser_address(String user_address) {
-		this.user_address = user_address;
+	public void setStore_phone(String store_phone) {
+		this.store_phone = store_phone;
 	}
 
 	public double getSum_cost() {
@@ -41,20 +41,20 @@ public class BillDto {
 		this.sum_cost = sum_cost;
 	}
 
-	public String getPayment() {
-		return payment;
+	public String getBank_name() {
+		return bank_name;
 	}
 
-	public void setPayment(String payment) {
-		this.payment = payment;
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getBank_id() {
+		return bank_id;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setBank_id(String bank_id) {
+		this.bank_id = bank_id;
 	}
 
 	public BillDto() {
@@ -62,15 +62,15 @@ public class BillDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BillDto(String bill_number, String user_name, String user_address, double sum_cost, String payment,
-			String status) {
+	public BillDto(String store_name, String store_address, String store_phone, double sum_cost, String bank_name,
+			String bank_id) {
 		super();
-		this.bill_number = bill_number;
-		this.user_name = user_name;
-		this.user_address = user_address;
+		this.store_name = store_name;
+		this.store_address = store_address;
+		this.store_phone = store_phone;
 		this.sum_cost = sum_cost;
-		this.payment = payment;
-		this.status = status;
+		this.bank_name = bank_name;
+		this.bank_id = bank_id;
 	}
 
 }

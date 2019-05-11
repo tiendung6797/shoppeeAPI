@@ -2,6 +2,7 @@ package shoppee.com.service;
 
 import java.util.List;
 
+import shoppee.com.dto.Dto;
 import shoppee.com.entities.ProductBill;
 
 public interface ProductBillService {
@@ -24,5 +25,5 @@ public interface ProductBillService {
 	
 	void updateBillSuccess(String bill_number);
 	
-	
+	List<Dto> getByStore();
 }

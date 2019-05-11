@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.BillDto;
+import shoppee.com.dto.Dto;
 import shoppee.com.dto.ProductBillDto;
 import shoppee.com.entities.Payment;
 import shoppee.com.entities.Product;
@@ -210,6 +211,17 @@ public class ProductBillController {
 		} else {
 			return new ResponseEntity<List<BillDto>>(HttpStatus.NO_CONTENT);
 		}
+	}
+	
+	@GetMapping("byStore")
+	public ResponseEntity<List<BillDto>> getBy(){
+		List<BillDto> listByStore = new ArrayList<BillDto>();
+		List<Dto> list = productBillService.getByStore();
+		for(Dto objDto : list) {
+			Store objStore = storeService.getOneById(objDto.getStore_id());
+			listByStore.add(new BillDto(objStore.getStore_name(), objStore.getAddress(), objStore.getPhone(), objDto.getSum_cost(), objStore.getBank_name(), objStore.getBank_id()));
+		}
+		return new ResponseEntity<List<BillDto>>(listByStore, HttpStatus.OK);
 	}
 	
 }
