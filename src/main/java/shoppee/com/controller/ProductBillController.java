@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.BillDto;
+import shoppee.com.dto.ByBillDto;
 import shoppee.com.dto.Dto;
 import shoppee.com.dto.ProductBillDto;
 import shoppee.com.entities.Payment;
@@ -198,18 +199,18 @@ public class ProductBillController {
 	}
 	
 	@GetMapping("byBill")
-	public ResponseEntity<List<BillDto>> getByBill(){
-		List<BillDto> listByBill = new ArrayList<BillDto>();
+	public ResponseEntity<List<ByBillDto>> getByBill(){
+		List<ByBillDto> listByBill = new ArrayList<ByBillDto>();
 		List<ProductBill> listProductBill = productBillService.getBill();
 		for(ProductBill objProductBill : listProductBill) {
 			User objUser = userService.getOneById(objProductBill.getUser_id());
 			Payment objPayment = paymentService.getPaymentById(objProductBill.getPayment_id());
-			listByBill.add(new BillDto(objProductBill.getBill_number(), objUser.getFullname(), objUser.getAddress(), objProductBill.getSum_bill() , objPayment.getPayment_name(), objProductBill.getStatus()));
+			listByBill.add(new ByBillDto(objProductBill.getBill_number(), objUser.getFullname(), objUser.getAddress(), objProductBill.getSum_bill() , objPayment.getPayment_name(), objProductBill.getStatus()));
 		}
 		if (listByBill.size() > 0) {
-			return new ResponseEntity<List<BillDto>>(listByBill, HttpStatus.OK);
+			return new ResponseEntity<List<ByBillDto>>(listByBill, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<List<BillDto>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ByBillDto>>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
