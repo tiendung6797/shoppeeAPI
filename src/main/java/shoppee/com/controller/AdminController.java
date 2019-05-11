@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shoppee.com.entities.Admin;
 import shoppee.com.entities.Role;
 import shoppee.com.exception.AppException;
+import shoppee.com.payload.AdminRequest;
 import shoppee.com.payload.JwtAuthenticationResponse;
 import shoppee.com.payload.LoginRequest;
 import shoppee.com.repository.AdminRepository;
@@ -97,22 +98,21 @@ public class AdminController {
 	//@Secured("ROLE_ADMIN")
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("add")
-	public ResponseEntity<?> addAdmin(Principal userLogin, @RequestBody(required = false) Admin objAdmin) {
+	public ResponseEntity<?> addAdmin(Principal userLogin, @RequestBody(required = false) AdminRequest objAdmin) {
 		Admin ad = adminRepository.findByUsername(userLogin.getName());
 		if (ad.getRole().getRole_id() != 1) {
 			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
 			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
 		}
-		
+		Role role = roleRepository.getOne(objAdmin.getRole_id());
 		List<Admin> listAdmin = adminService.getAllAdmin();
 		boolean checkUsername = LogicHandle.functionCheckName(listAdmin, objAdmin);
 		if (checkUsername == false) {
-			AdminTokenResult result = new AdminTokenResult("False", "Username đã tồn tại. Vui lòng nhập lại username!", objAdmin);
-			return new ResponseEntity(result, HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity("Username đã tồn tại. Vui lòng nhập lại!", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
 		String password = passwordEncoder.encode(objAdmin.getPassword());
-		Admin admin = new Admin(0, objAdmin.getUsername(), password, objAdmin.getFullname(), objAdmin.getRole());
+		Admin admin = new Admin(0, objAdmin.getUser_name(), password, objAdmin.getFullname(), role);
 		
 //		Role adminRole = roleRepository.findByRoleName("MOD");
 //                /*.orElseThrow(() -> new AppException("User Role not set."));*/

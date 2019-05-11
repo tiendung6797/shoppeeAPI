@@ -6,6 +6,7 @@ import shoppee.com.entities.Admin;
 import shoppee.com.entities.Category;
 import shoppee.com.entities.Store;
 import shoppee.com.entities.User;
+import shoppee.com.payload.AdminRequest;
 
 public class LogicHandle {
 
@@ -31,10 +32,10 @@ public class LogicHandle {
 		return true;
 	}
 	
-	public static boolean functionCheckName(List<Admin> listAdmin, Admin objAdmin) {
+	public static boolean functionCheckName(List<Admin> listAdmin, AdminRequest objAdmin) {
 		if(!listAdmin.isEmpty() && objAdmin != null) {
 			for(Admin admin : listAdmin) {
-				if(admin.getUsername().equals(objAdmin.getUsername()))
+				if(admin.getUsername().equals(objAdmin.getUser_name()))
 					return false;
 			}
 		}
