@@ -214,7 +214,7 @@ public class ProductBillController {
 	}
 	
 	@GetMapping("byStore")
-	public ResponseEntity<List<BillDto>> getBy(){
+	public ResponseEntity<List<BillDto>> getByStore(){
 		List<BillDto> listByStore = new ArrayList<BillDto>();
 		List<Dto> list = productBillService.getByStore();
 		for(Dto objDto : list) {
