@@ -28,8 +28,8 @@ public class StoreServiceImpl implements StoreService{
 	}
 	
 	@Override
-	public Store saveStore(Store store) {
-		store = storeRepository.save(store);
+	public Store saveStore(Store objStore) {
+		Store store = storeRepository.save(objStore);
 		return store;
 	}
 
@@ -65,8 +65,9 @@ public class StoreServiceImpl implements StoreService{
 
 	@Override
 	public Store addStore(Store objStore) {
-		// TODO Auto-generated method stub
-		return null;
+		Store store = storeRepository.save(objStore);
+		return store;
+
 	}
 
 	@Override
@@ -74,4 +75,12 @@ public class StoreServiceImpl implements StoreService{
 		// TODO Auto-generated method stub
 		storeRepository.deleteById(id);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Store> findStoredByText(String text) {
+		// TODO Auto-generated method stub
+		return (List<Store>) storeRepository.findStoredByText(text);
+	}
+	
 }

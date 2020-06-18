@@ -23,4 +23,6 @@ public interface StoreService {
 	
 	public void deleteStoreById(Integer store_id);
 	
+	public List<Store> findStoredByText(String text);
+	
 }

@@ -38,7 +38,7 @@ import shoppee.com.utils.AdminTokenResult;
 import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.TokenResult;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("admin")
 public class AdminController {

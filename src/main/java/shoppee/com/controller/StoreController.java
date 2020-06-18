@@ -1,7 +1,10 @@
 package shoppee.com.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +23,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import shoppee.com.dto.StoreDto;
+import shoppee.com.entities.Admin;
 import shoppee.com.entities.Store;
 import shoppee.com.payload.JwtAuthenticationResponse;
 import shoppee.com.payload.LoginRequest;
+import shoppee.com.repository.AdminRepository;
 import shoppee.com.security.JwtTokenProvider;
 import shoppee.com.service.StoreService;
 import shoppee.com.service.impl.StoreServiceImpl;
@@ -33,15 +39,16 @@ import shoppee.com.utils.LogicHandle;
 import shoppee.com.utils.StoreTokenResult;
 import shoppee.com.utils.TokenResult;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "http://domain2.com", allowedHeaders = "*")
 @RestController
 @RequestMapping("store")
 public class StoreController {
-	@Autowired
-	StoreServiceImpl storeService;
 	
 	@Autowired
-	private StoreService storeService1;
+	private StoreService storeService;
+	
+	@Autowired
+    AdminRepository adminRepository;
 	
 	@Autowired
     AuthenticationManager authenticationManager;
@@ -84,6 +91,12 @@ public class StoreController {
 	// list store
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<StoreDto>> getAllStore() {
+//		Admin ad = adminRepository.findByUsername(userLogin.getName());
+//		if (ad.getRole().getRole_id() != 1) {
+//			TokenResult rs = new TokenResult("false", "Không có quyền truy cập");
+//			return new ResponseEntity(rs, HttpStatus.NOT_ACCEPTABLE);
+//		}
+		
 		List<StoreDto> listStoreDto = new ArrayList<StoreDto>();
 		List<Store> listStore = storeService.findAllStore();
 		if (listStore.size() > 0) {
@@ -154,6 +167,25 @@ public class StoreController {
 			return new ResponseEntity<StoreDto>(objStoreDto, HttpStatus.OK);
 		}
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GetMapping("/search")
+	public ResponseEntity<List<StoreDto>> findStoredByText(@RequestParam(name = "text", required = false) String text) {
+		if (storeService.findStoredByText(text) == null) {
+			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
+			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+		} else {
+			List<StoreDto> listStoreDto = new ArrayList<StoreDto>();
+			List<Store> listStore = storeService.findStoredByText(text);
+					
+			for(Store objStore : listStore) {
+				listStoreDto.add(new StoreDto(objStore.getStore_id(), objStore.getEmail(), objStore.getStoreowner_name(), objStore.getStore_name(), 
+						objStore.getAddress(), objStore.getPhone(), objStore.getBank_name(), objStore.getBank_id()));
+			}
+			return new ResponseEntity<List<StoreDto>>(listStoreDto, HttpStatus.OK);
+			
+		}
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PutMapping("update/{id}")
@@ -163,24 +195,24 @@ public class StoreController {
 			TokenResult error = new TokenResult("Failed", "Không tìm thấy tài khoản cửa hàng!");
 			return new ResponseEntity(error, HttpStatus.NOT_FOUND);
 		}else {
-			List<Store> listStore = storeService.findAllStore();
-			boolean checkStoreName = LogicHandle.functionCheckStoreName(listStore, objStore);
-			boolean checkStoreAddress = LogicHandle.functionCheckStoreAddress(listStore, objStore);
-			boolean checkStorePhone = LogicHandle.functionCheckStorePhone(listStore, objStore);
-			
-			if (checkStoreName == false) {
-				String error = "Tên cửa hàng này đã tồn tại, vui lòng sử dụng tên cửa hàng khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
-				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-			}if(checkStoreAddress == false) {
-				String error = "Đại chỉ cửa hàng này đã tồn tại, vui lòng nhập địa chỉ khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
-				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-			}if(checkStorePhone == false) {
-				String error = "Số điện thoại này đã tồn tại, vui lòng nhập số điện thoại khác!";
-				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
-				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-			}else {
+//			List<Store> listStore = storeService.findAllStore();
+//			boolean checkStoreName = LogicHandle.functionCheckStoreName(listStore, objStore);
+//			boolean checkStoreAddress = LogicHandle.functionCheckStoreAddress(listStore, objStore);
+//			boolean checkStorePhone = LogicHandle.functionCheckStorePhone(listStore, objStore);
+//			
+//			if (checkStoreName == false) {
+//				String error = "Tên cửa hàng này đã tồn tại, vui lòng sử dụng tên cửa hàng khác!";
+//				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
+//				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+//			}if(checkStoreAddress == false) {
+//				String error = "Đại chỉ cửa hàng này đã tồn tại, vui lòng nhập địa chỉ khác!";
+//				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
+//				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+//			}if(checkStorePhone == false) {
+//				String error = "Số điện thoại này đã tồn tại, vui lòng nhập số điện thoại khác!";
+//				StoreTokenResult result = new StoreTokenResult("false", error, objStore);
+//				return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+//			}else {
 				oldStore.setPassword(objStore.getPassword());
 				oldStore.setStoreowner_name(objStore.getStoreowner_name());
 				oldStore.setStore_name(objStore.getStore_name());
@@ -191,7 +223,7 @@ public class StoreController {
 				
 				storeService.addStore(oldStore);
 				return new ResponseEntity<Store>(oldStore, HttpStatus.OK);
-			}
+			//}
 		}
 	}
 
