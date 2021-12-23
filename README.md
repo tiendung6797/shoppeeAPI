@@ -1,1 +1,2 @@
 # shoppeeAPI
+# Copyright by Lionel
